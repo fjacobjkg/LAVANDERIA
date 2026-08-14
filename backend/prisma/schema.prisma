@@ -1,0 +1,12 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// Los modelos del dominio se incorporaran en la fase 2.
+// En la fase 1 Prisma valida la conexion mediante SELECT 1 sin crear tablas temporales.
+

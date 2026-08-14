@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+*.log
+.DS_Store
+
+# Prisma Client se genera durante la instalacion o compilacion.
+backend/generated/
+
+# Volumenes y archivos temporales.
+tmp/
+
