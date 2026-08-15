@@ -1,0 +1,396 @@
+:root {
+  --login-primary: #0e7490;
+  --login-secondary: #075985;
+  --login-dark: #020617;
+
+  --login-accent: #a5f3fc;
+  --login-text-light: #e0f2fe;
+  --login-bg: #f1f5f9;
+  --login-content-bg: #f8fafc;
+
+  --logo-size: 7.5rem;
+
+  --brand-name-size: 1.125rem;
+  --brand-type-size: 1.124rem;
+  --brand-label-size: 0.75rem;
+  --brand-title-size: 3rem;
+  --brand-description-size: 1rem;
+
+  --login-title-size: 2.25rem;
+  --login-subtitle-size: 0.875rem;
+
+  --card-width: 30rem;
+}
+
+
+/* Página */
+
+.login-page {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  background: var(--login-bg);
+}
+
+
+/* Panel izquierdo */
+
+.login-branding {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 3.5rem;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--login-primary),
+    var(--login-secondary) 50%,
+    var(--login-dark)
+  );
+}
+
+.login-brand-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.login-logo-container {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 0.4rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 10px 25px rgba(2, 6, 23, 0.2);
+}
+
+.login-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.login-brand-name,
+.login-brand-type,
+.login-brand-label,
+.login-brand-title,
+.login-brand-description,
+.login-brand-footer {
+  margin: 0;
+}
+
+.login-brand-name {
+  font-size: var(--brand-name-size);
+  font-weight: 700;
+}
+
+.login-brand-type {
+  margin-top: 0.2rem;
+  color: #cffafe;
+  font-size: var(--brand-type-size);
+}
+
+.login-brand-content {
+  position: relative;
+  z-index: 2;
+  max-width: 28rem;
+}
+
+.login-brand-label {
+  color: var(--login-accent);
+  font-size: var(--brand-label-size);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+}
+
+.login-brand-title {
+  margin-top: 1.25rem;
+  font-size: var(--brand-title-size);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.login-brand-title span {
+  display: block;
+  color: var(--login-accent);
+}
+
+.login-brand-description {
+  max-width: 27rem;
+  margin-top: 1.5rem;
+  color: var(--login-text-light);
+  font-size: var(--brand-description-size);
+  line-height: 1.75;
+}
+
+.login-brand-footer {
+  position: relative;
+  z-index: 2;
+  color: rgba(186, 230, 253, 0.8);
+  font-size: 0.75rem;
+}
+
+
+/* Decoraciones */
+
+.login-decoration {
+  position: absolute;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.login-decoration--top {
+  width: 18rem;
+  height: 18rem;
+  top: -6rem;
+  left: -5rem;
+}
+
+.login-decoration--bottom {
+  width: 24rem;
+  height: 24rem;
+  right: -5rem;
+  bottom: -7rem;
+  border-width: 48px;
+  background: transparent;
+}
+
+
+/* Panel derecho */
+
+.login-content {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: var(--login-content-bg);
+}
+
+.login-form-wrapper {
+  width: 100%;
+  max-width: var(--card-width);
+}
+
+
+/* Tarjeta */
+
+.login-card {
+  width: 100%;
+  padding: 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.5rem;
+  background: white;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+
+/* Marca móvil */
+
+.login-mobile-brand {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.login-mobile-logo-container {
+  width: 5rem;
+  height: 5rem;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 0.3rem;
+  border-radius: 0.8rem;
+  background: white;
+  box-shadow: 0 5px 15px rgba(15, 23, 42, 0.12);
+}
+
+.login-mobile-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.login-mobile-brand p {
+  margin: 0;
+  color: #020617;
+  font-weight: 700;
+}
+
+.login-mobile-brand span {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+
+/* Encabezado */
+
+.login-welcome {
+  margin: 0;
+  color: var(--login-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.login-title {
+  margin: 0.75rem 0 0;
+  color: #020617;
+  font-size: var(--login-title-size);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+
+.login-subtitle {
+  margin: 0.75rem 0 0;
+  color: #475569;
+  font-size: var(--login-subtitle-size);
+  line-height: 1.5rem;
+}
+
+
+/* Formulario */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2.25rem;
+}
+
+
+/* Mensajes */
+
+.login-message {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+
+.login-message--error {
+  border-color: #fecdd3;
+  background-color: #fff1f2;
+  color: #be123c;
+}
+
+.login-message--success {
+  border-color: #a7f3d0;
+  background-color: #ecfdf5;
+  color: #065f46;
+}
+
+.login-help {
+  margin: 2rem 0 0;
+  color: #64748b;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+}
+
+
+/* Tablet */
+
+@media (max-width: 1023px) {
+  .login-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-branding {
+    min-height: auto;
+    padding: 2.5rem 2rem;
+    gap: 2rem;
+  }
+
+  .login-brand-content,
+  .login-brand-description {
+    max-width: 100%;
+  }
+
+  .login-brand-title {
+    font-size: 2.5rem;
+  }
+
+  .login-brand-footer {
+    display: none;
+  }
+
+  .login-content {
+    min-height: auto;
+    flex: 1;
+    padding: 2.5rem 2rem;
+  }
+
+  .login-mobile-brand {
+    display: none;
+  }
+}
+
+
+/* Móvil */
+
+@media (max-width: 640px) {
+  .login-branding {
+    padding: 2rem 1.5rem;
+    gap: 1.75rem;
+  }
+
+  .login-logo-container {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .login-brand-name {
+    font-size: 1.1rem;
+  }
+
+  .login-brand-type {
+    font-size: 0.8rem;
+  }
+
+  .login-brand-label {
+    font-size: 0.65rem;
+  }
+
+  .login-brand-title {
+    margin-top: 0.75rem;
+    font-size: 2rem;
+  }
+
+  .login-brand-description {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .login-content {
+    padding: 1.5rem 1rem 2rem;
+  }
+
+  .login-card {
+    padding: 1.75rem;
+    border-radius: 1.25rem;
+  }
+
+  .login-title {
+    font-size: 1.875rem;
+  }
+}

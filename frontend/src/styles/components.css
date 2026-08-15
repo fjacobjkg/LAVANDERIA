@@ -1,0 +1,158 @@
+/* ==============================
+   BUTTON
+============================== */
+
+.button {
+  border: none;
+  border-radius: 1rem;
+
+  padding: 0.875rem 1.25rem;
+
+  background-color: #0e7490;
+  color: #ffffff;
+
+  font-size: 1rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 15px -3px rgba(14, 116, 144, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+.button:hover {
+  background-color: #155e75;
+
+  box-shadow:
+    0 12px 18px -4px rgba(14, 116, 144, 0.25);
+}
+
+.button:active {
+  transform: scale(0.99);
+}
+
+.button:focus-visible {
+  outline: 4px solid #cffafe;
+  outline-offset: 2px;
+}
+
+.button--full {
+  width: 100%;
+}
+
+
+/* ==============================
+   INPUT
+============================== */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.5rem;
+}
+
+.input-label {
+  color: #1e293b;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-field {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 1rem;
+
+  padding: 0.875rem 1rem;
+
+  background-color: #ffffff;
+  color: #020617;
+
+  font-size: 1rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.input-field::placeholder {
+  color: #94a3b8;
+}
+
+.input-field:focus {
+  border-color: #0891b2;
+
+  box-shadow:
+    0 0 0 4px #cffafe;
+}
+
+.input-field--action {
+  padding-right: 6rem;
+}
+
+.input-field--error {
+  border-color: #fb7185;
+}
+
+.input-field--error:focus {
+  border-color: #f43f5e;
+
+  box-shadow:
+    0 0 0 4px #ffe4e6;
+}
+
+.input-action {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  align-items: center;
+}
+
+.input-action button {
+  height: 100%;
+
+  border: none;
+
+  padding: 0 1rem;
+
+  background: transparent;
+
+  color: #0e7490;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.input-action button:hover {
+  color: #164e63;
+}
+
+.input-error-message {
+  margin: 0;
+
+  color: #e11d48;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+}

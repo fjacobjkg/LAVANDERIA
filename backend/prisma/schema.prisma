@@ -7,6 +7,135 @@ datasource db {
   provider = "mysql"
 }
 
-// Los modelos del dominio se incorporaran en la fase 2.
-// En la fase 1 Prisma valida la conexion mediante SELECT 1 sin crear tablas temporales.
+model bitacora {
+  id_bitacora     BigInt    @id @default(autoincrement())
+  id_usuario      Int?
+  id_servicio     Int?
+  accion          String    @db.VarChar(50)
+  tabla_afectada  String?   @db.VarChar(50)
+  id_registro     BigInt?
+  estado_anterior String?   @db.VarChar(30)
+  estado_nuevo    String?   @db.VarChar(30)
+  descripcion     String?   @db.VarChar(255)
+  fecha           DateTime  @default(now()) @db.DateTime(0)
+  servicio        servicio? @relation(fields: [id_servicio], references: [id_servicio], onDelete: NoAction, onUpdate: NoAction, map: "fk_bitacora_servicio")
+  usuario         usuario?  @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_bitacora_usuario")
 
+  @@index([id_servicio, fecha], map: "idx_bitacora_servicio_fecha")
+  @@index([id_usuario, fecha], map: "idx_bitacora_usuario_fecha")
+}
+
+model cliente {
+  id_cliente     Int        @id @default(autoincrement())
+  nombre         String     @db.VarChar(100)
+  telefono       String?    @db.VarChar(20)
+  activo         Boolean    @default(true)
+  fecha_registro DateTime   @default(now()) @db.DateTime(0)
+  servicio       servicio[]
+
+  @@index([nombre], map: "idx_cliente_nombre")
+  @@index([telefono], map: "idx_cliente_telefono")
+}
+
+model incidente {
+  id_incidente BigInt         @id @default(autoincrement())
+  id_servicio  Int
+  id_usuario   Int
+  tipo         incidente_tipo
+  motivo       String         @db.VarChar(150)
+  detalle      String?        @db.VarChar(255)
+  fecha        DateTime       @default(now()) @db.DateTime(0)
+  servicio     servicio       @relation(fields: [id_servicio], references: [id_servicio], onDelete: NoAction, onUpdate: NoAction, map: "fk_incidente_servicio")
+  usuario      usuario        @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_incidente_usuario")
+
+  @@index([id_usuario], map: "fk_incidente_usuario")
+  @@index([id_servicio], map: "idx_incidente_servicio")
+}
+
+model notificacion {
+  id_notificacion   BigInt                    @id @default(autoincrement())
+  id_servicio       Int
+  telefono_destino  String                    @db.VarChar(20)
+  estado_envio      notificacion_estado_envio @default(PENDIENTE)
+  fecha_intento     DateTime                  @default(now()) @db.DateTime(0)
+  fecha_envio       DateTime?                 @db.DateTime(0)
+  detalle_respuesta String?                   @db.VarChar(255)
+  servicio          servicio                  @relation(fields: [id_servicio], references: [id_servicio], onDelete: NoAction, onUpdate: NoAction, map: "fk_notificacion_servicio")
+
+  @@index([id_servicio], map: "idx_notificacion_servicio")
+}
+
+model rol {
+  id_rol      Int       @id @default(autoincrement())
+  nombre      String    @unique(map: "nombre") @db.VarChar(30)
+  descripcion String?   @db.VarChar(150)
+  usuario     usuario[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model servicio {
+  id_servicio               Int             @id @default(autoincrement())
+  id_cliente                Int?
+  id_operador               Int
+  codigo_servicio           String          @unique(map: "codigo_servicio") @db.VarChar(30)
+  token_qr                  String          @unique(map: "token_qr") @db.VarChar(100)
+  total_prendas             Int
+  observaciones             String?         @db.VarChar(255)
+  estado                    servicio_estado @default(RECIBIDA)
+  qr_impreso                Boolean         @default(false)
+  fecha_ultima_impresion_qr DateTime?       @db.DateTime(0)
+  fecha_recepcion           DateTime        @default(now()) @db.DateTime(0)
+  fecha_actualizacion       DateTime        @default(now()) @db.DateTime(0)
+  fecha_entrega             DateTime?       @db.DateTime(0)
+  bitacora                  bitacora[]
+  incidente                 incidente[]
+  notificacion              notificacion[]
+  cliente                   cliente?        @relation(fields: [id_cliente], references: [id_cliente], onDelete: NoAction, onUpdate: NoAction, map: "fk_servicio_cliente")
+  usuario                   usuario         @relation(fields: [id_operador], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "fk_servicio_operador")
+
+  @@index([id_cliente], map: "fk_servicio_cliente")
+  @@index([id_operador], map: "fk_servicio_operador")
+  @@index([codigo_servicio], map: "idx_servicio_codigo")
+  @@index([estado], map: "idx_servicio_estado")
+  @@index([fecha_entrega], map: "idx_servicio_fecha_entrega")
+  @@index([fecha_recepcion], map: "idx_servicio_fecha_recepcion")
+}
+
+model usuario {
+  id_usuario     Int         @id @default(autoincrement())
+  id_rol         Int
+  nombre         String      @db.VarChar(100)
+  nombre_usuario String      @unique(map: "nombre_usuario") @db.VarChar(50)
+  password_hash  String      @db.VarChar(255)
+  activo         Boolean     @default(true)
+  fecha_creacion DateTime    @default(now()) @db.DateTime(0)
+  bitacora       bitacora[]
+  incidente      incidente[]
+  servicio       servicio[]
+  rol            rol         @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction, map: "fk_usuario_rol")
+
+  @@index([id_rol], map: "fk_usuario_rol")
+}
+
+enum incidente_tipo {
+  CORRECCION
+  CANCELACION
+  QR_DANADO
+  FALTA_CONTACTO
+  CONFUSION_SERVICIO
+  OTRO
+}
+
+enum notificacion_estado_envio {
+  PENDIENTE
+  ENVIADO
+  FALLIDO
+}
+
+enum servicio_estado {
+  RECIBIDA
+  EN_PROCESO
+  LISTA_PARA_RECOGER
+  ENTREGADA
+  CANCELADA
+}
