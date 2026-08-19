@@ -117,7 +117,7 @@ export function LoginPage() {
           </h1>
 
           <p className="login-brand-description">
-            Acceso para el personal autorizado de la lavandería.
+            Acceso para el personal autorizado.
           </p>
 
         </div>
@@ -179,7 +179,7 @@ export function LoginPage() {
                   label="Usuario"
                   type="text"
                   autoComplete="username"
-                  placeholder="Ej. operador01"
+                  placeholder="Ej. Nombre"
                   value={username}
                   error={errors.username}
                   onChange={(event) => {
@@ -249,7 +249,7 @@ export function LoginPage() {
 
 
             <p className="login-help">
-              Si no puedes ingresar, comunícate con el propietario del sistema.
+              Si no puedes ingresar, comunícate con el propietario.
             </p>
 
           </div>
