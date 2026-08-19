@@ -5,19 +5,13 @@
 .button {
   border: none;
   border-radius: 1rem;
-
   padding: 0.875rem 1.25rem;
 
-  background-color: #0e7490;
-  color: #ffffff;
 
   font-size: 1rem;
   font-weight: 700;
 
   cursor: pointer;
-
-  box-shadow:
-    0 10px 15px -3px rgba(14, 116, 144, 0.18);
 
   transition:
     background-color 0.2s ease,
@@ -25,11 +19,30 @@
     box-shadow 0.2s ease;
 }
 
-.button:hover {
-  background-color: #155e75;
+
+.button--primary {
+  background-color: #0e7490;
+  color: #ffffff;
 
   box-shadow:
-    0 12px 18px -4px rgba(14, 116, 144, 0.25);
+    0 10px 15px -3px rgba(14, 116, 144, 0.18);
+}
+
+.button--primary:hover {
+  background-color: #155e75;
+}
+
+.button--secondary {
+  border: 1px solid #cbd5e1;
+
+  background-color: #ffffff;
+  color: #334155;
+
+  box-shadow: none;
+}
+
+.button--secondary:hover {
+  background-color: #f8fafc;
 }
 
 .button:active {
@@ -45,16 +58,53 @@
   width: 100%;
 }
 
-
 /* ==============================
    INPUT
 ============================== */
 
 .input-group {
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
 
-  gap: 0.5rem;
+.app-input {
+  width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  padding: 0.8rem 0.9rem;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 0.65rem;
+
+  background-color: #ffffff;
+  color: #0f172a;
+
+  font-size: 0.88rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.app-input:hover {
+  border-color: #94a3b8;
+}
+
+.app-input:focus {
+  border-color: var(--app-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(14, 116, 144, 0.12);
+}
+
+.app-input::placeholder {
+  color: #94a3b8;
+  font-size: 0.84rem;
 }
 
 .input-label {
@@ -155,4 +205,77 @@
 
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+
+/* ==============================
+   SELECT
+============================== */
+
+
+.app-select {
+  width: 100%;
+  min-width: 0;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+  border: 1px solid #cbd5e1;
+
+  background-color: #ffffff;
+  color: #0f172a;
+
+  font-size: 0.88rem;
+}
+
+
+/* ==============================
+   TextArea
+============================== */
+
+.app-textarea {
+  width: 100%;
+  min-width: 0;
+
+  min-height: 8rem;
+
+  box-sizing: border-box;
+
+  padding: 0.85rem 0.9rem;
+
+  border: 1px solid #cbd5e1;
+  border-radius: 0.65rem;
+
+  background-color: #ffffff;
+  color: #0f172a;
+
+  font-family: inherit;
+  font-size: 0.85rem;
+  line-height: 1.5;
+
+  resize: vertical;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.app-textarea:hover {
+  border-color: #94a3b8;
+}
+
+.app-textarea:focus {
+  border-color: var(--app-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(14, 116, 144, 0.12);
+}
+
+.app-textarea::placeholder {
+  color: #94a3b8;
+
+  font-size: 0.8rem;
 }

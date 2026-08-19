@@ -1,11 +1,5 @@
-export function DashboardPage() {
-  return (
-    <main>
-      <h1>Dashboard</h1>
+import { RegisterServicePage } from "./operator/RegisterServicePage";
 
-      <p>
-        Inicio de sesión realizado correctamente.
-      </p>
-    </main>
-  );
+export function DashboardPage() {
+  return <RegisterServicePage />;
 }
