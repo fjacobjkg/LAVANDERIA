@@ -1,4 +1,5 @@
 import type { InputHTMLAttributes, ReactNode } from "react";
+import { FieldLabel } from "./FieldLabel";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -25,7 +26,8 @@ export function Input({
 
   return (
     <div className="input-group">
-      <label className="input-label" htmlFor={id}>
+
+      <label htmlFor={id}>
         {label}
       </label>
 

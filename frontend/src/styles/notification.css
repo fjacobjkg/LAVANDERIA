@@ -1,0 +1,153 @@
+.notification {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+
+  width: min(24rem, calc(100vw - 2rem));
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+
+  gap: 0.9rem;
+
+  padding: 1rem;
+
+  border: 1px solid;
+  border-radius: 0.85rem;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 30px rgba(15, 23, 42, 0.12);
+
+  animation: notification-enter 0.2s ease;
+}
+
+.notification-icon {
+  width: 2rem;
+  height: 2rem;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+}
+
+.notification-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+
+/* ÉXITO */
+
+.notification--success {
+  border-color: #bbf7d0;
+}
+
+.notification--success .notification-icon {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+
+/* ERROR */
+
+.notification--error {
+  border-color: #fecaca;
+}
+
+.notification--error .notification-icon {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+
+/* INFORMACIÓN */
+
+.notification--info {
+  border-color: #bae6fd;
+}
+
+.notification--info .notification-icon {
+  background: #e0f2fe;
+  color: var(--app-primary);
+}
+
+
+.notification-content {
+  min-width: 0;
+}
+
+.notification-title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.notification-message {
+  margin: 0.25rem 0 0;
+
+  color: #64748b;
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.notification-close {
+  width: 1.8rem;
+  height: 1.8rem;
+
+  display: grid;
+  place-items: center;
+
+  border: none;
+  border-radius: 0.4rem;
+
+  background: transparent;
+
+  color: #64748b;
+
+  font-size: 1.3rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.notification-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+@keyframes notification-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .notification {
+    top: 1rem;
+    right: 1rem;
+    left: 1rem;
+
+    width: auto;
+  }
+}

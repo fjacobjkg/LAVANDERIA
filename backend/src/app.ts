@@ -6,6 +6,8 @@ import { env } from "./config/env.js";
 import { errorHandler } from "./middleware/error-handler.js";
 import { notFoundHandler } from "./middleware/not-found.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
+import { clientRouter } from "./modules/client/client.routes.js";
+import { serviceRouter } from "./modules/service/service.routes.js";
 
 export function createApp(): Express {
   const app = express();
@@ -25,12 +27,15 @@ export function createApp(): Express {
 
   app.get("/api", (_request, response) => {
     response.status(200).json({
-      name: "API Lavanderia Sol y Espuma",
+      name: "API Lavanderia ",
       version: "0.1.0",
     });
   });
 
   app.use("/api/auth", authRouter);
+  
+  app.use("/api/clients", clientRouter);
+  app.use("/api/services", serviceRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

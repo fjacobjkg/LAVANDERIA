@@ -15,7 +15,7 @@ export function requireAuth(
 
   if (!authorization?.startsWith("Bearer ")) {
     return res.status(401).json({
-      message: "Token requerido.",
+      message: "Se requiere autenticación.",
     });
   }
 
@@ -29,7 +29,7 @@ export function requireAuth(
     next();
   } catch {
     return res.status(401).json({
-      message: "Token inválido o expirado.",
+      message: "La sesión es inválida o ha expirado.",
     });
   }
 }
