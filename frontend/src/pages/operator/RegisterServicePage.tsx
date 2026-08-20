@@ -16,7 +16,7 @@ export function RegisterServicePage() {
 
         <p>
           Registra la recepción de una bolsa o canasto y genera
-          su boleta con código QR.
+          su código QR.
         </p>
       </div>
 
