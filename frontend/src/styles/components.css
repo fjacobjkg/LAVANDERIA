@@ -297,11 +297,9 @@
    FieldLabel
 ============================== */
 
-
 .field-label {
   display: flex;
   align-items: center;
-
   gap: 0.25rem;
 
   margin-bottom: 0.4rem;
@@ -315,6 +313,7 @@
 .field-required {
   color: #dc2626;
 
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 800;
+  line-height: 1;
 }

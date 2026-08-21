@@ -1,5 +1,4 @@
 import type { InputHTMLAttributes, ReactNode } from "react";
-import { FieldLabel } from "./FieldLabel";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -13,6 +12,7 @@ export function Input({
   action,
   id,
   className = "",
+  required,
   ...props
 }: InputProps) {
   const classes = [
@@ -27,13 +27,23 @@ export function Input({
   return (
     <div className="input-group">
 
-      <label htmlFor={id}>
+      <label
+        htmlFor={id}
+        className="field-label"
+      >
         {label}
+
+        {required && (
+          <span className="field-required">
+            *
+          </span>
+        )}
       </label>
 
       <div className="input-wrapper">
         <input
           id={id}
+          required={required}
           className={classes}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? `${id}-error` : undefined}

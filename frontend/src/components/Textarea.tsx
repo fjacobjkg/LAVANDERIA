@@ -10,16 +10,23 @@ interface TextareaProps
 export function Textarea({
   label,
   id,
+  required,
   ...props
 }: TextareaProps) {
   return (
     <div className="input-group">
-      <label
-        className="input-label"
-        htmlFor={id}
-      >
-        {label}
-      </label>
+       <label
+          htmlFor={id}
+            className="field-label"
+          >
+            {label}
+
+            {required && (
+              <span className="field-required">
+                *
+              </span>
+            )}
+          </label>
 
       <textarea
         id={id}

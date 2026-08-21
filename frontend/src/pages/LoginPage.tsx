@@ -178,6 +178,7 @@ export function LoginPage() {
                   name="username"
                   label="Usuario"
                   type="text"
+                  required
                   autoComplete="username"
                   placeholder="Ej. Nombre"
                   value={username}
@@ -200,6 +201,7 @@ export function LoginPage() {
                 name="password"
                 label="Contraseña"
                 type={showPassword ? "text" : "password"}
+                required
                 autoComplete="current-password"
                 placeholder="Ingresa tu contraseña"
                 value={password}

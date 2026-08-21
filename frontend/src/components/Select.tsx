@@ -13,16 +13,23 @@ export function Select({
   label,
   id,
   children,
+  required,
   ...props
 }: SelectProps) {
   return (
     <div className="input-group">
       <label
-        className="input-label"
-        htmlFor={id}
-      >
-        {label}
-      </label>
+       htmlFor={id}
+       className="field-label"
+    >
+      {label}
+
+      {required && (
+        <span className="field-required">
+          *
+        </span>
+      )}
+    </label>
 
       <select
         id={id}
