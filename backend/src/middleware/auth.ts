@@ -4,32 +4,47 @@ import type {
   Response,
 } from "express";
 
-import { verifyToken } from "../lib/jwt.js";
+import {
+  verifyToken,
+} from "../lib/jwt.js";
+
+import {
+  readAuthCookie,
+} from "../modules/auth/auth.cookie.js";
 
 export function requireAuth(
-  req: Request,
-  res: Response,
-  next: NextFunction
+  request: Request,
+  response: Response,
+  next: NextFunction,
 ) {
-  const authorization = req.headers.authorization;
+  const token =
+    readAuthCookie(request);
 
-  if (!authorization?.startsWith("Bearer ")) {
-    return res.status(401).json({
-      message: "Se requiere autenticación.",
-    });
+  if (!token) {
+    return response
+      .status(401)
+      .json({
+        message:
+          "Se requiere autenticación.",
+      });
   }
 
-  const token = authorization.substring(7);
-
   try {
-    const payload = verifyToken(token);
+    const payload =
+      verifyToken(token);
 
-    res.locals.user = payload;
+    response.locals.user =
+      payload;
 
     next();
+
   } catch {
-    return res.status(401).json({
-      message: "La sesión es inválida o ha expirado.",
-    });
+
+    return response
+      .status(401)
+      .json({
+        message:
+          "La sesión es inválida o ha expirado.",
+      });
   }
 }

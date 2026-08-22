@@ -6,27 +6,25 @@ import type {
 export async function createService(
   payload: CreateServiceRequest,
 ): Promise<CreateServiceResponse> {
-  const token = localStorage.getItem("accessToken");
 
-  if (!token) {
-    throw new Error(
-      "La sesión no es válida.",
-    );
-  }
+ 
 
   const response = await fetch(
-    "http://localhost:3000/api/services",
-    {
-      method: "POST",
+  "http://localhost:3000/api/services",
+  {
+    method: "POST",
 
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+    credentials: "include",
 
-      body: JSON.stringify(payload),
+    headers: {
+      "Content-Type":
+        "application/json",
     },
-  );
+
+    body:
+      JSON.stringify(payload),
+  },
+);
 
   const data = await response.json();
 

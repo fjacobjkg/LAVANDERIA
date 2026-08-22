@@ -1,6 +1,36 @@
-import { Router } from "express";
-import { loginController } from "./auth.controller.js";
+import {
+  Router,
+} from "express";
 
-export const authRouter = Router();
+import {
+  loginController,
+  logoutController,
+  meController,
+} from "./auth.controller.js";
 
-authRouter.post("/login", loginController);
+import {
+  requireAuth,
+} from "../../middleware/auth.js";
+
+export const authRouter =
+  Router();
+
+
+authRouter.post(
+  "/login",
+  loginController,
+);
+
+
+authRouter.get(
+  "/me",
+  requireAuth,
+  meController,
+);
+
+
+authRouter.post(
+  "/logout",
+  requireAuth,
+  logoutController,
+);

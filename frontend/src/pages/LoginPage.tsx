@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { login } from "../services/auth.service";
+import { useNavigate, } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 
@@ -23,6 +24,7 @@ export function LoginPage() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<MessageType>(null);
+  const navigate = useNavigate();
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>,
@@ -48,17 +50,19 @@ export function LoginPage() {
     }
 
     try {
-      const result = await login(
+      await login(
         username,
         password,
       );
+      
+    
+      navigate(
+          "/dashboard",
+          {
+            replace: true,
+          },
+        );
 
-      localStorage.setItem(
-        "accessToken",
-        result.token,
-      );
-
-      window.location.href = "/dashboard";
     } catch (error) {
       if (error instanceof Error) {
         setMessage(error.message);

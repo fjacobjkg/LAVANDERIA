@@ -1,4 +1,7 @@
 import logo from "../assets/logo.png";
+import {logout } from "../services/auth.service";
+import { useNavigate } from "react-router-dom";
+
 
 interface SidebarProps {
   isOpen: boolean;
@@ -10,10 +13,26 @@ export function Sidebar({
   onClose,
 }: SidebarProps) {
 
-  function handleLogout() {
-    localStorage.removeItem("accessToken");
-    window.location.href = "/";
+const navigate = useNavigate();
+
+async function handleLogout() {
+  try {
+    await logout();
+
+    navigate(
+      "/login",
+      {
+        replace: true,
+      },
+    ); 
+
+  } catch (error) {
+    console.error(
+      "No fue posible cerrar la sesión.",
+      error,
+    );
   }
+}
 
   return (
     <aside

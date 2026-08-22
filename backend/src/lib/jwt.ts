@@ -66,36 +66,75 @@ export function signToken(payload: JwtPayload): string {
   return `${data}.${signature}`;
 }
 
-export function verifyToken(token: string): TokenPayload {
+export function verifyToken(
+  token: string,
+): TokenPayload {
+
   const parts = token.split(".");
 
   if (parts.length !== 3) {
-    throw new Error("Token inválido.");
+    throw new Error(
+      "Token inválido.",
+    );
   }
 
-  const [header, payload, signature] = parts;
-
-  const data = `${header}.${payload}`;
-  const expectedSignature = createSignature(data);
-
-  const signatureBuffer = Buffer.from(signature);
-  const expectedBuffer = Buffer.from(expectedSignature);
+  const [
+    header,
+    payload,
+    signature,
+  ] = parts;
 
   if (
-    signatureBuffer.length !== expectedBuffer.length ||
-    !timingSafeEqual(signatureBuffer, expectedBuffer)
+    !header ||
+    !payload ||
+    !signature
   ) {
-    throw new Error("Firma inválida.");
+    throw new Error(
+      "Token inválido.",
+    );
   }
 
-  const parsedPayload = JSON.parse(
-    base64UrlDecode(payload)
-  ) as TokenPayload;
+  const data =
+    `${header}.${payload}`;
 
-  const now = Math.floor(Date.now() / 1000);
+  const expectedSignature =
+    createSignature(data);
 
-  if (parsedPayload.exp <= now) {
-    throw new Error("Token expirado.");
+  const signatureBuffer =
+    Buffer.from(signature);
+
+  const expectedBuffer =
+    Buffer.from(expectedSignature);
+
+  if (
+    signatureBuffer.length !==
+      expectedBuffer.length ||
+    !timingSafeEqual(
+      signatureBuffer,
+      expectedBuffer,
+    )
+  ) {
+    throw new Error(
+      "Firma inválida.",
+    );
+  }
+
+  const parsedPayload =
+    JSON.parse(
+      base64UrlDecode(payload),
+    ) as TokenPayload;
+
+  const now =
+    Math.floor(
+      Date.now() / 1000,
+    );
+
+  if (
+    parsedPayload.exp <= now
+  ) {
+    throw new Error(
+      "Token expirado.",
+    );
   }
 
   return parsedPayload;

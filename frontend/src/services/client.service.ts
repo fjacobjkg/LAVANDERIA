@@ -5,16 +5,14 @@ interface ClientsResponse {
 }
 
 export async function getClients(): Promise<Client[]> {
-  const token = localStorage.getItem("accessToken");
+
 
   const response = await fetch(
-    "http://localhost:3000/api/clients",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+  "http://localhost:3000/api/clients",
+  {
+    credentials: "include",
+  },
+);
 
   const data = await response.json();
 
