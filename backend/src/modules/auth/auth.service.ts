@@ -29,16 +29,24 @@ export async function login({
     });
 
   if (!user) {
-    throw new Error(
-      "INVALID_CREDENTIALS",
-    );
-  }
+  throw new Error(
+    "INVALID_CREDENTIALS",
+  );
+}
 
-  if (!user.activo) {
-    throw new Error(
-      "USER_DISABLED",
-    );
-  }
+if (
+  user.nombre_usuario !== username
+) {
+  throw new Error(
+    "INVALID_CREDENTIALS",
+  );
+}
+
+if (!user.activo) {
+  throw new Error(
+    "USER_DISABLED",
+  );
+}
 
   const passwordIsValid =
     await verifyPassword(

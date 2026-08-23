@@ -110,24 +110,19 @@ export function LoginPage() {
         </div>
 
         <div className="login-brand-content">
-
-          <p className="login-brand-label">
-    
-          </p>
-
           <h1 className="login-brand-title">
              Todas las prendas,
             <span>bajo control.</span>
           </h1>
 
           <p className="login-brand-description">
-            Acceso para el personal autorizado.
+             Cada bolsa o canasto ingresa al sistema con su propio identificador.
+             Se registra el total de prendas que contiene y su estado, desde la recepción hasta la entrega.
           </p>
-
         </div>
 
         <p className="login-brand-footer">
-        
+             Acceso para el personal autorizado.
         </p>
 
       </section>
@@ -149,7 +144,6 @@ export function LoginPage() {
             </div>
 
             <div>
-              <p>Sol y Espuma</p>
               <span>Lavandería</span>
             </div>
 

@@ -158,7 +158,7 @@ async function handleLogout() {
 
 
           <p className="sidebar-section-title">
-            Trazabilidad
+            Historial y control
           </p>
 
           <button
