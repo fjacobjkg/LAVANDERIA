@@ -57,7 +57,7 @@ export function LoginPage() {
       
     
       navigate(
-          "/dashboard",
+          "/services/new",
           {
             replace: true,
           },

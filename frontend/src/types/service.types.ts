@@ -7,14 +7,9 @@ export interface Client {
 export interface CreateServiceRequest {
   idCliente?: number | null;
 
-  clienteNuevo?: {
-    nombre: string;
-    telefono?: string | null;
-  } | null;
-
   totalPrendas: number;
 
-  observaciones?: string | null;
+  observaciones: string;
 }
 
 export interface RegisteredService {

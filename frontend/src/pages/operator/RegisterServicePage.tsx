@@ -21,6 +21,7 @@ import {
 } from "../../components/Notification";
 
 import "../../styles/register-service.css";
+import { RegisterClientModal } from "../../components/clients/RegisterClientModal";
 
 
 export function RegisterServicePage() {
@@ -39,10 +40,6 @@ export function RegisterServicePage() {
     setSelectedClientId,
   ] = useState("");
 
-  const [
-    newClientMode,
-    setNewClientMode,
-  ] = useState(false);
 
   const [name, setName] =
     useState("");
@@ -91,30 +88,14 @@ export function RegisterServicePage() {
     observations.trim().length >= 1 &&
     observations.trim().length <= 150;
 
-  const nameIsValid =
-    name.trim().length <= 25;
-
-  const phoneIsValid =
-    phone === "" ||
-    /^\d{8}$/.test(phone);
-
-  const hasNewClientData =
-    name.trim() !== "" ||
-    phone.trim() !== "";
-
-  const newClientIsValid =
-    !newClientMode ||
-    !hasNewClientData ||
-    (
-      name.trim().length >= 1 &&
-      nameIsValid &&
-      phoneIsValid
-    );
-
   const isFormValid =
     garmentsAreValid &&
-    observationsAreValid &&
-    newClientIsValid;
+    observationsAreValid;
+
+  const [
+  isClientModalOpen,
+  setIsClientModalOpen,
+  ] = useState(false);
 
 
   /*
@@ -140,6 +121,82 @@ export function RegisterServicePage() {
     void loadClients();
   }, []);
 
+   /*
+   * ============================
+   * NUEVO CLIENTE
+   * ============================
+   */
+
+
+  function handleClientCreated(
+  client: Client,
+) {
+  /*
+   * Agregar el cliente a la lista
+   * sin recargar la página.
+   */
+  setClients((current) =>
+    [
+      ...current,
+      client,
+    ].sort(
+      (first, second) =>
+        first.name.localeCompare(
+          second.name,
+          "es",
+        ),
+    ),
+  );
+
+
+  /*
+   * Seleccionarlo automáticamente.
+   */
+  setSelectedClientId(
+    String(client.id),
+  );
+
+
+  /*
+   * Mostrar sus datos.
+   */
+  setName(
+    client.name,
+  );
+
+  setPhone(
+    client.phone ?? "",
+  );
+
+
+  /*
+   * Notificación reutilizable.
+   */
+  setNotification({
+    type: "success",
+
+    title:
+      "Cliente registrado",
+
+    message:
+      `${client.name} fue registrado correctamente.`,
+  });
+}
+
+
+function handleClientError(
+  message: string,
+) {
+  setNotification({
+    type: "error",
+
+    title:
+      "No fue posible registrar el cliente",
+
+    message,
+  });
+}
+
 
   /*
    * ============================
@@ -147,52 +204,31 @@ export function RegisterServicePage() {
    * ============================
    */
 
-  function handleClientChange(
-    clientId: string,
-  ) {
-    setSelectedClientId(clientId);
+    function handleClientChange(
+      clientId: string,
+    ) {
+      setSelectedClientId(clientId);
 
-    setNewClientMode(false);
+      if (!clientId) {
+        setName("");
+        setPhone("");
+        return;
+      }
 
-    if (!clientId) {
-      setName("");
-      setPhone("");
+      const selectedClient =
+        clients.find(
+          (client) =>
+            client.id === Number(clientId),
+        );
 
-      return;
-    }
-
-    const selectedClient =
-      clients.find(
-        (client) =>
-          client.id === Number(clientId),
+      setName(
+        selectedClient?.name ?? "",
       );
 
-    setName(
-      selectedClient?.name ?? "",
-    );
-
-    setPhone(
-      selectedClient?.phone ?? "",
-    );
-  }
-
-
-  /*
-   * ============================
-   * NUEVO CLIENTE
-   * ============================
-   */
-
-  function handleNewClient() {
-    setSelectedClientId("");
-
-    setName("");
-    setPhone("");
-
-    setNewClientMode(true);
-
-  }
-
+      setPhone(
+        selectedClient?.phone ?? "",
+      );
+    }
 
   /*
    * ============================
@@ -204,7 +240,6 @@ export function RegisterServicePage() {
         clearNotification = true,
       ) {
         setSelectedClientId("");
-        setNewClientMode(false);
 
         setName("");
         setPhone("");
@@ -214,7 +249,7 @@ export function RegisterServicePage() {
 
         if (clearNotification) {
           setNotification(null);
-        }
+      }
     }
 
 
@@ -224,7 +259,7 @@ export function RegisterServicePage() {
    * ============================
    */
 
-   async function handleSubmit(
+    async function handleSubmit(
       event: FormEvent<HTMLFormElement>,
     ) {
       event.preventDefault();
@@ -251,36 +286,6 @@ export function RegisterServicePage() {
         return;
       }
 
-      if (
-        newClientMode &&
-        phone &&
-        !phoneIsValid
-      ) {
-        setNotification({
-          type: "error",
-          title: "Teléfono inválido",
-          message:
-            "El teléfono debe contener exactamente 8 dígitos.",
-        });
-
-        return;
-      }
-
-      if (
-        newClientMode &&
-        hasNewClientData &&
-        !name.trim()
-      ) {
-        setNotification({
-          type: "error",
-          title: "Nombre requerido",
-          message:
-            "Ingresa el nombre para registrar al nuevo cliente.",
-        });
-
-        return;
-      }
-
       try {
         setIsSubmitting(true);
         setNotification(null);
@@ -290,18 +295,6 @@ export function RegisterServicePage() {
             idCliente:
               selectedClientId
                 ? Number(selectedClientId)
-                : null,
-
-            clienteNuevo:
-              newClientMode &&
-              name.trim()
-                ? {
-                    nombre:
-                      name.trim(),
-
-                    telefono:
-                      phone || null,
-                  }
                 : null,
 
             totalPrendas:
@@ -346,6 +339,22 @@ export function RegisterServicePage() {
 
   return (
     <AppLayout>
+
+      <RegisterClientModal
+            isOpen={isClientModalOpen}
+
+            onClose={() =>
+              setIsClientModalOpen(false)
+            }
+
+            onClientCreated={
+              handleClientCreated
+            }
+
+            onError={
+              handleClientError
+            }
+      />
 
           {notification && (
           <Notification
@@ -428,11 +437,12 @@ export function RegisterServicePage() {
             <Button
               type="button"
               variant="secondary"
-              onClick={handleNewClient}
-            >
+              onClick={() =>
+                setIsClientModalOpen(true)
+                  }
+                >
               + Nuevo cliente
             </Button>
-
           </div>
 
 
@@ -444,64 +454,27 @@ export function RegisterServicePage() {
           <div className="form-grid">
 
             <Input
-              id="name"
-              name="name"
-              label="Nombre"
-              type="text"
-              placeholder="Opcional"
-
-              maxLength={25}
-
-              value={name}
-
-              disabled={
-                !newClientMode &&
-                !selectedClientId
-              }
-
-              readOnly={
-                Boolean(selectedClientId)
-              }
-
-              onChange={(event) =>
-                setName(
-                  event.target.value,
-                )
-              }
+                id="name"
+                name="name"
+                label="Nombre"
+                type="text"
+                placeholder="Sin cliente asociado"
+                value={name}
+                disabled={!selectedClientId}
+                readOnly
             />
 
 
-           <Input
-              id="phone"
-              name="phone"
-              label="Teléfono"
-              type="tel"
-
-              placeholder="00000000"
-
-              inputMode="numeric"
-              maxLength={8}
-
-              value={phone}
-
-              disabled={
-                !newClientMode &&
-                !selectedClientId
-              }
-
-              readOnly={
-                Boolean(selectedClientId)
-              }
-
-              onChange={(event) => {
-                const numericValue =
-                  event.target.value
-                    .replace(/\D/g, "")
-                    .slice(0, 8);
-
-                setPhone(numericValue);
-              }}
-            />
+            <Input
+            id="phone"
+            name="phone"
+            label="Teléfono"
+            type="tel"
+            placeholder="Sin cliente asociado"
+            value={phone}
+            disabled={!selectedClientId}
+            readOnly
+          />
 
           </div>
 

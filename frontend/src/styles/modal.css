@@ -1,0 +1,156 @@
+/* ========================================
+   FONDO
+======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.5rem;
+
+  background: rgba(15, 23, 42, 0.48);
+
+  backdrop-filter: blur(2px);
+}
+
+
+/* ========================================
+   CONTENEDOR
+======================================== */
+
+.modal-container {
+  width: 100%;
+  max-width: 34rem;
+
+  max-height: calc(100vh - 3rem);
+
+  overflow-y: auto;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  padding: 1.35rem 1.5rem 1rem;
+
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  margin: 0;
+
+  color: #0f172a;
+
+  font-size: 1.1rem;
+  font-weight: 800;
+
+  letter-spacing: -0.01em;
+}
+
+
+/* ========================================
+   CERRAR
+======================================== */
+
+.modal-close {
+  width: 2rem;
+  height: 2rem;
+
+  display: grid;
+  place-items: center;
+
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 0.5rem;
+
+  background: transparent;
+
+  color: #64748b;
+
+  font-size: 1.35rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.modal-close:active {
+  transform: scale(0.9);
+}
+
+
+/* ========================================
+   CONTENIDO
+======================================== */
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    align-items: flex-end;
+
+    padding: 0.75rem;
+  }
+
+  .modal-container {
+    max-width: none;
+
+    max-height: calc(100vh - 1.5rem);
+
+    border-radius: 1rem;
+  }
+
+  .modal-header {
+    padding:
+      1.15rem
+      1.1rem
+      0.9rem;
+  }
+
+  .modal-body {
+    padding: 1.1rem;
+  }
+
+  .modal-title {
+    font-size: 1rem;
+  }
+}

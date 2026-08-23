@@ -1,0 +1,55 @@
+/* ========================================
+   FORMULARIO
+======================================== */
+
+.register-client-form {
+  width: 100%;
+}
+
+.register-client-fields {
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.15rem;
+}
+
+
+/* ========================================
+   ACCIONES
+======================================== */
+
+.register-client-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 0.75rem;
+
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 520px) {
+  .register-client-fields {
+    gap: 1rem;
+  }
+
+  .register-client-actions {
+    flex-direction: column-reverse;
+
+    gap: 0.65rem;
+
+    margin-top: 1.5rem;
+  }
+
+  .register-client-actions .button {
+    width: 100%;
+  }
+}

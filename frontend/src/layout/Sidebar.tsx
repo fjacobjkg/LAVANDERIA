@@ -104,15 +104,18 @@ async function handleLogout() {
           </p>
 
           <button
-            type="button"
-            className="sidebar-link sidebar-link--active"
-            onClick={onClose}
-          >
-            <span className="sidebar-icon">
-              ＋
-            </span>
+              type="button"
+              className="sidebar-link sidebar-link--active"
+              onClick={() => {
+                navigate("/services/new");
+                onClose();
+              }}
+            >
+              <span className="sidebar-icon">
+                ＋
+              </span>
 
-            Nuevo servicio
+              Nuevo servicio
           </button>
 
 
