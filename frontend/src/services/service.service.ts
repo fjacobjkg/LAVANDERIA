@@ -10,7 +10,7 @@ export async function createService(
  
 
   const response = await fetch(
-  "http://localhost:3000/api/services",
+  "/api/services",
   {
     method: "POST",
 

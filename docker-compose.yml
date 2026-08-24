@@ -1,97 +1,73 @@
-name: lavanderia
-
 services:
   mysql:
     image: mysql:8.4
+    container_name: lavanderia-mysql
+
     restart: unless-stopped
+
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    command:
-      - --character-set-server=utf8mb4
-      - --collation-server=utf8mb4_0900_ai_ci
-    ports:
-      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "mysqladmin ping -h localhost -uroot -p\"$${MYSQL_ROOT_PASSWORD}\" --silent",
-        ]
-      interval: 5s
-      timeout: 5s
-      retries: 20
-      start_period: 20s
-    networks:
-      - lavanderia_network
 
-  backend:
-    build:
-      context: ./backend
-    restart: unless-stopped
-    command: sh -c "npm run db:generate && npm run dev"
-    environment:
-      NODE_ENV: development
-      PORT: 3000
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
-      DATABASE_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
-      DATABASE_HOST: mysql
-      DATABASE_PORT: 3306
-      DATABASE_USER: ${MYSQL_USER}
-      DATABASE_PASSWORD: ${MYSQL_PASSWORD}
-      DATABASE_NAME: ${MYSQL_DATABASE}
     ports:
-      - "127.0.0.1:${API_PORT:-3000}:3000"
+      - "3307:3306"
+
     volumes:
-      - ./backend:/app
-      - backend_node_modules:/app/node_modules
-    depends_on:
-      mysql:
-        condition: service_healthy
+      - lavanderia_mysql_data:/var/lib/mysql
+
     healthcheck:
       test:
         [
           "CMD",
-          "node",
-          "-e",
-          "fetch('http://localhost:3000/api/health/live').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-p${MYSQL_ROOT_PASSWORD}"
         ]
       interval: 10s
       timeout: 5s
       retries: 10
-      start_period: 15s
-    networks:
-      - lavanderia_network
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: lavanderia-backend
+
+    restart: unless-stopped
+
+    env_file:
+      - ./backend/.env.docker
+
+    ports:
+      - "3000:3000"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: lavanderia-frontend
+
     restart: unless-stopped
-    command: npm run dev -- --host 0.0.0.0
-    environment:
-      VITE_API_URL: /api
-      VITE_PROXY_TARGET: http://backend:3000
+
     ports:
-      - "127.0.0.1:${FRONTEND_PORT:-5173}:5173"
-    volumes:
-      - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
+      - "5173:80"
+
     depends_on:
-      backend:
-        condition: service_healthy
-    networks:
-      - lavanderia_network
+      - backend
 
 volumes:
-  mysql_data:
-  backend_node_modules:
-  frontend_node_modules:
-
-networks:
-  lavanderia_network:
-    driver: bridge
-
+  lavanderia_mysql_data:

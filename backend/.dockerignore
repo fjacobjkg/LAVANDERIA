@@ -1,6 +1,13 @@
 node_modules
 dist
 generated
-.env*
-npm-debug.log*
 
+.env
+.env.*
+!.env.example
+
+coverage
+.git
+.gitignore
+
+npm-debug.log*

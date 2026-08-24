@@ -12,3 +12,8 @@ backend/generated/
 # Volumenes y archivos temporales.
 tmp/
 
+.env
+.env.docker
+backend/.env
+backend/.env.docker
+

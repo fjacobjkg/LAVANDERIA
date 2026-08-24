@@ -14,7 +14,7 @@ export async function getClients(): Promise<Client[]> {
 
 
   const response = await fetch(
-  "http://localhost:3000/api/clients",
+  "/api/clients",
   {
     credentials: "include",
   },
@@ -38,7 +38,7 @@ export async function createClient(
 ): Promise<Client> {
 
   const response = await fetch(
-    "http://localhost:3000/api/clients",
+    "/api/clients",
     {
       method: "POST",
 

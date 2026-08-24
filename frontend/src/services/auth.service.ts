@@ -20,7 +20,7 @@ export async function login(
 ): Promise<LoginResponse> {
 
   const response = await fetch(
-    "http://localhost:3000/api/auth/login",
+    "/api/auth/login",
     {
       method: "POST",
 
@@ -57,7 +57,7 @@ export async function getCurrentUser():
 Promise<SessionUser> {
 
   const response = await fetch(
-    "http://localhost:3000/api/auth/me",
+    "/api/auth/me",
     {
       credentials: "include",
     },
@@ -83,7 +83,7 @@ export async function logout():
 Promise<void> {
 
   const response = await fetch(
-    "http://localhost:3000/api/auth/logout",
+    "/api/auth/logout",
     {
       method: "POST",
 
