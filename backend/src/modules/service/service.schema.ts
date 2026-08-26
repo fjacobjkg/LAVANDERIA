@@ -71,3 +71,34 @@ export const createServiceSchema = z
 
 export type CreateServiceInput =
   z.infer<typeof createServiceSchema>;
+
+
+export const listServicesQuerySchema =
+  z.object({
+    search: z
+      .string()
+      .trim()
+      .optional(),
+
+    status: z
+      .enum([
+        "RECIBIDA",
+        "EN_PROCESO",
+        "LISTA_RECOGER",
+        "ENTREGADA",
+      ])
+      .optional(),
+
+    page: z.coerce
+      .number()
+      .int()
+      .min(1)
+      .default(1),
+  });
+
+export type ListServicesQuery =
+  z.infer<
+    typeof listServicesQuerySchema
+  >;
+
+

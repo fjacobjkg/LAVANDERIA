@@ -1,0 +1,25 @@
+.page-header-title {
+  margin: 0;
+  color: #123047;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.page-header-description {
+  margin: 0.35rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .page-header-title {
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+
+  .page-header-description {
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+}

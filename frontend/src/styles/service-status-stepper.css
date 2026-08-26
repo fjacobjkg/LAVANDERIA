@@ -1,0 +1,237 @@
+.service-stepper {
+  display: flex;
+
+  width: 100%;
+
+  margin:
+    1.75rem
+    0;
+}
+
+.service-stepper-step--recibida {
+  --step-color: #9A7B00;
+  --step-background: #FFF7D6;
+}
+
+.service-stepper-step--en_proceso {
+  --step-color: #6654A6;
+  --step-background: #F0ECFA;
+}
+
+.service-stepper-step--lista_recoger {
+  --step-color: #36805B;
+  --step-background: #E8F5EE;
+}
+
+.service-stepper-step--entregada {
+  --step-color: #3973B9;
+  --step-background: #EAF2F3;
+}
+
+
+/* =========================
+   STEP
+   ========================= */
+
+.service-stepper-step {
+  position: relative;
+
+  flex: 1;
+
+  min-width: 0;
+
+  text-align: center;
+}
+
+
+/* =========================
+   TRACK
+   ========================= */
+
+.service-stepper-track {
+  position: absolute;
+
+  top: 0.45rem;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+
+  background: #dbe5eb;
+}
+
+
+/*
+ * El primer paso comienza
+ * desde el centro del círculo.
+ */
+.service-stepper-step:first-child
+.service-stepper-track {
+  left: 50%;
+  width: 50%;
+}
+
+
+/*
+ * El último paso termina
+ * en el centro del círculo.
+ */
+.service-stepper-step:last-child
+.service-stepper-track {
+  width: 50%;
+}
+
+
+/* =========================
+   MARKER
+   ========================= */
+
+.service-stepper-marker {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  justify-content: center;
+}
+
+.service-stepper-marker span {
+  box-sizing: border-box;
+
+  width: 0.95rem;
+  height: 0.95rem;
+
+  border:
+    2px solid #cbd9e1;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+}
+
+/* =========================
+   COMPLETED
+   ========================= */
+
+.service-stepper-step--completed
+.service-stepper-marker
+span {
+  border-color: var(--step-color);
+  background: var(--step-color);
+}
+
+.service-stepper-step--completed
+.service-stepper-track {
+  background: var(--step-color);
+}
+
+.service-stepper-step--completed
+.service-stepper-label {
+  color: var(--step-color);
+}
+
+/* =========================
+   ACTIVE
+   ========================= */
+
+.service-stepper-step--active
+.service-stepper-marker
+span {
+  border-color: var(--step-color);
+  background: var(--step-background);
+
+  box-shadow:
+    0 0 0 3px
+    color-mix(
+      in srgb,
+      var(--step-color) 15%,
+      transparent
+    );
+}
+
+.service-stepper-step--active
+.service-stepper-marker
+span::after {
+  content: "";
+
+  display: block;
+
+  width: 0.35rem;
+  height: 0.35rem;
+
+  margin:
+    0.18rem
+    auto;
+
+  border-radius: 50%;
+
+  background: var(--step-color);
+}
+
+.service-stepper-step--active
+.service-stepper-label {
+  color: var(--step-color);
+  font-weight: 700;
+}
+
+/* =========================
+   LABEL
+   ========================= */
+
+.service-stepper-label {
+  display: block;
+
+  margin-top: 0.5rem;
+
+  color: #83919b;
+
+  font-size: 0.68rem;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.service-stepper-step--completed
+.service-stepper-label {
+  color: #557565;
+}
+
+.service-stepper-step--active
+.service-stepper-label {
+  color: #173b52;
+
+  font-weight: 700;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 520px) {
+
+  .service-stepper {
+    margin:
+      1.4rem
+      0;
+  }
+
+  .service-stepper-label {
+    font-size: 0.58rem;
+
+    white-space: normal;
+
+    line-height: 1.25;
+  }
+
+  .service-stepper-marker span {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  .service-stepper-track {
+    top: 0.37rem;
+  }
+
+}

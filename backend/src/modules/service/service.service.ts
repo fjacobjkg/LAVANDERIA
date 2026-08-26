@@ -4,6 +4,7 @@ import { ServiceError } from "./service.errors.js";
 
 import type {
   CreateServiceInput,
+  ListServicesQuery,
 } from "./service.schema.js";
 
 import {
@@ -11,6 +12,11 @@ import {
   generateServiceCode,
   normalizeOptionalText,
 } from "./service.utils.js";
+
+import {
+  servicio_estado,
+  type Prisma,
+} from "../../../generated/prisma/client.js";
 
 export async function registerService(
   input: CreateServiceInput,
@@ -190,4 +196,159 @@ export async function registerService(
       };
     },
   );
+}
+
+const SERVICES_PER_PAGE = 10;
+
+export async function getServices(
+  filters: ListServicesQuery,
+) {
+  const search =
+    filters.search?.trim();
+
+  const page =
+    filters.page;
+
+  const skip =
+    (page - 1) *
+    SERVICES_PER_PAGE;
+
+
+  const where:
+    Prisma.servicioWhereInput = {};
+
+
+  /*
+   * Filtrar por estado.
+   */
+  if (filters.status) {
+    where.estado =
+      filters.status as servicio_estado;
+  }
+
+
+  /*
+   * Buscar por:
+   * - código
+   * - cliente
+   * - teléfono
+   */
+  if (search) {
+    where.OR = [
+      {
+        codigo_servicio: {
+          contains: search,
+        },
+      },
+
+      {
+        cliente: {
+          is: {
+            nombre: {
+              contains: search,
+            },
+          },
+        },
+      },
+
+      {
+        cliente: {
+          is: {
+            telefono: {
+              contains: search,
+            },
+          },
+        },
+      },
+    ];
+  }
+
+
+  /*
+   * Ejecutamos:
+   *
+   * 1. Consulta de los 10 servicios.
+   * 2. Conteo total con el mismo filtro.
+   */
+  const [
+    services,
+    totalItems,
+  ] =
+    await prisma.$transaction([
+      prisma.servicio.findMany({
+        where,
+
+        include: {
+          cliente: true,
+        },
+
+        orderBy: {
+          fecha_recepcion:
+            "desc",
+        },
+
+        skip,
+
+        take:
+          SERVICES_PER_PAGE,
+      }),
+
+      prisma.servicio.count({
+        where,
+      }),
+    ]);
+
+
+  const totalPages =
+    Math.max(
+      1,
+      Math.ceil(
+        totalItems /
+          SERVICES_PER_PAGE,
+      ),
+    );
+
+
+  return {
+    services:
+      services.map(
+        (service) => ({
+          id:
+            service.id_servicio,
+
+          code:
+            service.codigo_servicio,
+
+          client:
+            service.cliente
+              ?.nombre ??
+            "Sin cliente",
+
+          phone:
+            service.cliente
+              ?.telefono ??
+            null,
+
+          garments:
+            service.total_prendas,
+
+          status:
+            service.estado,
+
+          receivedAt:
+            service.fecha_recepcion,
+        }),
+      ),
+
+    pagination: {
+      page,
+
+      pageSize:
+        SERVICES_PER_PAGE,
+
+      totalItems,
+
+      totalPages,
+    },
+  };
 }

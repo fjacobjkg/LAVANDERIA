@@ -1,0 +1,44 @@
+.service-status {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 0.35rem;
+
+  padding: 0.28rem 0.55rem;
+
+  border-radius: 999px;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.service-status-dot {
+  width: 0.38rem;
+  height: 0.38rem;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+.service-status--recibida {
+  background: #fff7d6;
+  color: #9a7b00;
+}
+
+.service-status--en_proceso {
+  background: #f0ecfa;
+  color: #6654a6;
+}
+
+.service-status--lista_recoger {
+  background: #e8f5ee;
+  color: #36805b;
+}
+
+.service-status--entregada {
+  background: #eaf2f3;
+  color: #3973B9;
+}

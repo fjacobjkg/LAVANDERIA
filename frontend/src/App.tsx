@@ -7,6 +7,9 @@ import {
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterServicePage } from "./pages/operator/RegisterServicePage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
+import {
+  ServiceTrackingPage,
+} from "./pages/operator/ServiceTrackingPage";
 
 function App() {
   return (
@@ -31,6 +34,15 @@ function App() {
         element={
           <ProtectedRoute>
             <RegisterServicePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/services"
+        element={
+          <ProtectedRoute>
+            <ServiceTrackingPage />
           </ProtectedRoute>
         }
       />

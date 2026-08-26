@@ -1,0 +1,320 @@
+/* =========================
+   PAGE
+   ========================= */
+
+.service-tracking-header {
+  margin-bottom: 1.75rem;
+}
+
+
+/* =========================
+   CARD
+   ========================= */
+
+.service-tracking-card {
+  width: 100%;
+  padding: 1.25rem;
+
+  border: 1px solid #dce6ed;
+  border-radius: 0.9rem;
+
+  background: #ffffff;
+}
+
+
+/* =========================
+   FILTERS
+   ========================= */
+
+
+.service-tracking-filters {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    12rem
+    auto
+    auto;
+
+  gap: 0.75rem;
+
+  margin-bottom: 1rem;
+}
+
+.service-tracking-search input,
+.service-tracking-select {
+  width: 100%;
+  height: 2.8rem;
+
+  border: 1px solid #d6e1e9;
+  border-radius: 0.55rem;
+
+  background: #ffffff;
+  color: #334155;
+
+  font: inherit;
+  font-size: 0.88rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.service-tracking-search input {
+  padding: 0 0.9rem;
+}
+
+.service-tracking-select {
+  padding: 0 0.7rem;
+}
+
+.service-tracking-search input::placeholder {
+  color: #9aa8b4;
+}
+
+.service-tracking-search input:focus,
+.service-tracking-select:focus {
+  border-color: #3f7899;
+  box-shadow: 0 0 0 3px rgba(63, 120, 153, 0.08);
+}
+
+
+/* =========================
+   TABLE
+   ========================= */
+
+.service-tracking-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.service-tracking-table {
+  width: 100%;
+  min-width: 48rem;
+
+  border-collapse: collapse;
+}
+
+.service-tracking-table th {
+  padding: 0.8rem 0.7rem;
+
+  border-bottom: 1px solid #dfe8ee;
+
+  color: #71808d;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.service-tracking-table td {
+  padding: 0.9rem 0.7rem;
+
+  border-bottom: 1px solid #e8eef2;
+
+  color: #354b5b;
+
+  font-size: 0.82rem;
+
+  vertical-align: middle;
+}
+
+.service-tracking-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tracking-service-code {
+  color: #173c56;
+  font-weight: 800;
+}
+
+
+/* =========================
+   SERVICE DETAIL MODAL
+   ========================= */
+
+.service-detail-modal {
+  width: 100%;
+}
+
+.service-detail-modal-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 1rem;
+}
+
+.service-detail-modal-heading p {
+  margin: 0;
+
+  color: #71808d;
+
+  font-size: 0.8rem;
+}
+
+
+/* =========================
+   SERVICE DETAILS
+   ========================= */
+
+.service-detail-data {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 0.5rem;
+}
+
+.service-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  padding: 0.75rem 0;
+
+  border-bottom: 1px solid #e6edf2;
+}
+
+.service-detail-row span {
+  color: #73838f;
+
+  font-size: 0.8rem;
+}
+
+.service-detail-row strong {
+  color: #17384d;
+
+  font-size: 0.8rem;
+
+  text-align: right;
+}
+
+
+/* =========================
+   STATUS INFORMATION
+   ========================= */
+
+.service-next-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
+
+  margin-top: 1rem;
+  padding: 0.9rem;
+
+  border-radius: 0.6rem;
+
+  background: #f1f6f9;
+}
+
+.service-next-status span {
+  color: #607685;
+
+  font-size: 0.76rem;
+}
+
+.service-next-status strong {
+  color: #173d55;
+
+  font-size: 0.8rem;
+}
+
+.service-delivery-notice {
+  margin-top: 1rem;
+  padding: 0.9rem;
+
+  border: 1px solid #d5e6dc;
+  border-radius: 0.6rem;
+
+  background: #e8f5ee;
+  color: #36805b;
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.service-finished-status {
+  margin-top: 1rem;
+  padding: 0.9rem;
+
+  border-radius: 0.6rem;
+
+  background: #eef5f1;
+  color: #557467;
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+
+/* =========================
+   ACTIONS
+   ========================= */
+
+.service-detail-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 0.75rem;
+
+  margin-top: 1.4rem;
+  padding-top: 1.1rem;
+
+  border-top: 1px solid #e4ebf0;
+}
+
+
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 720px) {
+  .service-tracking-page {
+    padding: 1rem;
+  }
+
+  .service-tracking-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .service-tracking-filters .button {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .service-tracking-header {
+    margin-bottom: 1.25rem;
+  }
+}
+
+
+@media (max-width: 520px) {
+  .service-tracking-card {
+    padding: 0.9rem;
+  }
+
+  .service-detail-row {
+    align-items: flex-start;
+  }
+
+  .service-detail-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .service-detail-modal-actions .button {
+    width: 100%;
+  }
+}

@@ -1,6 +1,6 @@
 import logo from "../assets/logo.png";
 import {logout } from "../services/auth.service";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 interface SidebarProps {
@@ -14,6 +14,13 @@ export function Sidebar({
 }: SidebarProps) {
 
 const navigate = useNavigate();
+const location = useLocation();
+
+const isNewServiceActive =
+  location.pathname === "/services/new";
+
+const isTrackingActive =
+  location.pathname === "/services";
 
 async function handleLogout() {
   try {
@@ -104,18 +111,25 @@ async function handleLogout() {
           </p>
 
           <button
-              type="button"
-              className="sidebar-link sidebar-link--active"
-              onClick={() => {
-                navigate("/services/new");
-                onClose();
-              }}
-            >
-              <span className="sidebar-icon">
-                ＋
-              </span>
+            type="button"
+            className={[
+              "sidebar-link",
 
-              Nuevo servicio
+              isNewServiceActive
+                ? "sidebar-link--active"
+                : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={() => {
+              navigate("/services/new");
+              onClose();
+            }}
+          >
+            <span className="sidebar-icon">
+              +  
+            </span>
+            Nuevo servicio
           </button>
 
 
@@ -125,13 +139,23 @@ async function handleLogout() {
 
           <button
             type="button"
-            className="sidebar-link"
-            onClick={onClose}
+            className={[
+              "sidebar-link",
+
+              isTrackingActive
+                ? "sidebar-link--active"
+                : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={() => {
+              navigate("/services");
+              onClose();
+            }}
           >
             <span className="sidebar-icon">
               ⌕
             </span>
-
             Consulta y seguimiento
           </button>
 

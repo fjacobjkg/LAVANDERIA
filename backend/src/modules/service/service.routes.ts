@@ -6,9 +6,19 @@ import {
 
 import {
   createServiceController,
+  getServicesController,
 } from "./service.controller.js";
 
-export const serviceRouter = Router();
+export const serviceRouter =
+  Router();
+
+
+serviceRouter.get(
+  "/",
+  requireAuth,
+  getServicesController,
+);
+
 
 serviceRouter.post(
   "/",

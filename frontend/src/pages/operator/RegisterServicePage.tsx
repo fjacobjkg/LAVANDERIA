@@ -367,15 +367,14 @@ function handleClientError(
           />
         )}
 
-      <div className="service-page-header">
+      <div  className="service-page-header">
 
-        <h1>
+        <h1 className="page-header-title">
           Nuevo servicio
         </h1>
 
-        <p>
-          Registra la recepción de una bolsa o canasto y genera
-          su código QR.
+        <p className="page-header-description">
+          Registra la recepción de una bolsa o canasto.
         </p>
 
       </div>
