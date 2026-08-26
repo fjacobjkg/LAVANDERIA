@@ -21,7 +21,7 @@ const steps: {
     label: "En proceso",
   },
   {
-    key: "LISTA_RECOGER",
+    key: "LISTA_PARA_RECOGER",
     label: "Lista para recoger",
   },
   {

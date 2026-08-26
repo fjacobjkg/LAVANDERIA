@@ -272,6 +272,36 @@
   border-top: 1px solid #e4ebf0;
 }
 
+/* =========================
+   OBSERVATIONS
+   ========================= */
+
+.service-detail-row--observations strong {
+  max-width: 65%;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  line-height: 1.45;
+}
+
+/* =========================
+   IFORMATION
+   ========================= */
+
+.service-whatsapp-notice {
+  margin-top: 0.75rem;
+  padding: 0.8rem 0.9rem;
+
+  border: 1px solid #d5e6dc;
+  border-radius: 0.6rem;
+
+  background: #f1f8f4;
+  color: #4f7260;
+
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
 
 
 
@@ -316,5 +346,15 @@
 
   .service-detail-modal-actions .button {
     width: 100%;
+  }
+
+  .service-detail-row--observations {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .service-detail-row--observations strong {
+    max-width: 100%;
+    text-align: left;
   }
 }

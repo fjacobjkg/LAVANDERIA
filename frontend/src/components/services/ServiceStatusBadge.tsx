@@ -13,7 +13,7 @@ const statusLabels: Record<
 > = {
   RECIBIDA: "Recepción",
   EN_PROCESO: "En proceso",
-  LISTA_RECOGER: "Lista para recoger",
+  LISTA_PARA_RECOGER: "Lista para recoger",
   ENTREGADA: "Entregada",
 };
 

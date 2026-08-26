@@ -28,7 +28,6 @@ import {
 export function ServiceTrackingPage() {
     const {
     services,
-
     selectedService,
     isDetailOpen,
 
@@ -40,6 +39,8 @@ export function ServiceTrackingPage() {
     isLoading,
     error,
 
+   isUpdatingStatus,
+
     setSearch,
     setStatusFilter,
 
@@ -48,6 +49,7 @@ export function ServiceTrackingPage() {
 
     handleConsult,
     handleCloseDetail,
+    handleAdvanceStatus,
   } = useServiceTracking();
 
 
@@ -86,7 +88,7 @@ export function ServiceTrackingPage() {
                   )
                 }
 
-                placeholder="Código, cliente o teléfono..."
+                placeholder="Buscar servicio..."
 
                 aria-label="Buscar servicio"
               />
@@ -120,7 +122,7 @@ export function ServiceTrackingPage() {
                 En proceso
               </option>
 
-              <option value="LISTA_RECOGER">
+              <option value="LISTA_PARA_RECOGER">
                 Lista para recoger
               </option>
 
@@ -212,9 +214,7 @@ export function ServiceTrackingPage() {
 
 
                         <td>
-                          {
-                            service.client
-                          }
+                          {service.client ?? "Sin cliente"}
                         </td>
 
 
@@ -289,19 +289,12 @@ export function ServiceTrackingPage() {
 
         </section>
 
-
         <ServiceDetailModal
-          isOpen={
-            isDetailOpen
-          }
-
-          service={
-            selectedService
-          }
-
-          onClose={
-            handleCloseDetail
-          }
+          isOpen={isDetailOpen}
+          service={selectedService}
+          onClose={handleCloseDetail}
+          onAdvanceStatus={handleAdvanceStatus}
+          isUpdatingStatus={isUpdatingStatus}
         />
 
       </main>

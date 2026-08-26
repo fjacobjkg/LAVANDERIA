@@ -1,0 +1,1 @@
+export const SERVICES_PER_PAGE = 7;

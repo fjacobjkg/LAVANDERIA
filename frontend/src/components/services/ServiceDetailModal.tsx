@@ -5,7 +5,6 @@ import { ServiceStatusBadge } from "./ServiceStatusBadge";
 import { ServiceStatusStepper } from "./ServiceStatusStepper";
 
 import type {
-  ServiceStatus,
   TrackingService,
 } from "../../types/service-tracking.types";
 
@@ -15,36 +14,66 @@ interface ServiceDetailModalProps {
   onClose: () => void;
 }
 
-const nextStatusLabels: Partial<
-  Record<ServiceStatus, string>
-> = {
-  RECIBIDA: "En proceso",
-  EN_PROCESO: "Lista para recoger",
-};
+
+interface ServiceDetailModalProps {
+  isOpen: boolean;
+
+  service:
+    TrackingService | null;
+
+  onClose:
+    () => void;
+
+  onAdvanceStatus:
+    () => void;
+
+  isUpdatingStatus:
+    boolean;
+}
 
 export function ServiceDetailModal({
   isOpen,
   service,
   onClose,
+  onAdvanceStatus,
+  isUpdatingStatus,
 }: ServiceDetailModalProps) {
   if (!service) {
     return null;
   }
 
-  const canUpdateStatus =
-    service.status === "RECIBIDA" ||
+
+  const isReceived =
+    service.status === "RECIBIDA";
+
+  const isInProcess =
     service.status === "EN_PROCESO";
 
   const isReadyForPickup =
-    service.status === "LISTA_RECOGER";
+    service.status ===
+    "LISTA_PARA_RECOGER";
 
   const isDelivered =
     service.status === "ENTREGADA";
 
-  const nextStatus =
-    nextStatusLabels[service.status];
+  const canAdvanceStatus =
+  isReceived ||
+  isInProcess;
 
-  return (
+  const nextStatusLabel =
+  isReceived
+    ? "En proceso"
+    : isInProcess
+      ? "Lista para recoger"
+      : null;
+
+  const canNotifyByWhatsApp =
+  Boolean(
+    service.client &&
+    service.phone,
+  );
+
+ return (
     <Modal
       isOpen={isOpen}
       title={service.code}
@@ -54,7 +83,8 @@ export function ServiceDetailModal({
 
         <div className="service-detail-modal-heading">
           <p>
-            Información y estado del servicio seleccionado.
+            Información y estado del
+            servicio seleccionado.
           </p>
 
           <ServiceStatusBadge
@@ -64,7 +94,9 @@ export function ServiceDetailModal({
 
 
         <ServiceStatusStepper
-          currentStatus={service.status}
+          currentStatus={
+            service.status
+          }
         />
 
 
@@ -83,7 +115,7 @@ export function ServiceDetailModal({
             <span>Cliente</span>
 
             <strong>
-              {service.client}
+              {service.client ?? "No registrado"}
             </strong>
           </div>
 
@@ -98,7 +130,9 @@ export function ServiceDetailModal({
 
 
           <div className="service-detail-row">
-            <span>Total de prendas</span>
+            <span>
+              Total de prendas
+            </span>
 
             <strong>
               {service.garments}
@@ -106,12 +140,13 @@ export function ServiceDetailModal({
           </div>
 
 
-          <div className="service-detail-row">
-            <span>Estado</span>
+          <div className="service-detail-row service-detail-row--observations">
+            <span>Observaciones</span>
 
-            <ServiceStatusBadge
-              status={service.status}
-            />
+            <strong>
+              {service.observations ??
+                "Sin observaciones"}
+            </strong>
           </div>
 
 
@@ -126,23 +161,34 @@ export function ServiceDetailModal({
         </div>
 
 
-        {canUpdateStatus && nextStatus && (
+        {canAdvanceStatus &&
+        nextStatusLabel && (
           <div className="service-next-status">
             <span>
               Siguiente estado permitido
             </span>
 
             <strong>
-              {nextStatus}
+              {nextStatusLabel}
             </strong>
           </div>
         )}
 
+        {isInProcess &&
+          canNotifyByWhatsApp && (
+            <div className="service-whatsapp-notice">
+              Al actualizar este servicio a
+              Lista para recoger se preparará
+              el aviso al cliente por WhatsApp.
+            </div>
+          )}
+
 
         {isReadyForPickup && (
           <div className="service-delivery-notice">
-            Este servicio está listo para recoger.
-            La entrega debe confirmarse desde el módulo
+            Este servicio está listo para
+            recoger. La entrega debe
+            confirmarse desde el módulo
             Confirmar entrega.
           </div>
         )}
@@ -161,14 +207,22 @@ export function ServiceDetailModal({
             type="button"
             variant="secondary"
             onClick={onClose}
+            disabled={isUpdatingStatus}
           >
             Cerrar
           </Button>
 
 
-          {canUpdateStatus && nextStatus && (
-            <Button type="button">
-              Actualizar a {nextStatus}
+          {canAdvanceStatus &&
+            nextStatusLabel && (
+            <Button
+              type="button"
+              onClick={onAdvanceStatus}
+              disabled={isUpdatingStatus}
+            >
+              {isUpdatingStatus
+                ? "Actualizando..."
+                : `Actualizar a ${nextStatusLabel}`}
             </Button>
           )}
 

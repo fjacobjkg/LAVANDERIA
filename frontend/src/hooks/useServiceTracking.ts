@@ -1,264 +1,116 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
-import {
-  getServices,
-} from "../services/service.service";
-
 import type {
-  ServicePagination,
-  ServiceStatusFilter,
   TrackingService,
 } from "../types/service-tracking.types";
 
+import {
+  useServiceDetail,
+} from "./service-tracking/useServiceDetail";
 
-interface AppliedFilters {
-  search: string;
+import {
+  useServiceList,
+} from "./service-tracking/useServiceList";
 
-  status:
-    ServiceStatusFilter;
-}
-
-
-const initialFilters:
-  AppliedFilters = {
-    search: "",
-    status: "ALL",
-  };
+import {
+  useServiceStatusUpdate,
+} from "./service-tracking/useServiceStatusUpdate";
 
 
 export function useServiceTracking() {
-  const [
-    services,
-    setServices,
-  ] =
-    useState<TrackingService[]>(
-      [],
+  const list =
+    useServiceList();
+
+
+  const detail =
+    useServiceDetail();
+
+
+  function handleServiceUpdated(
+    service: TrackingService,
+  ) {
+    list.replaceService(
+      service,
     );
 
-
-  const [
-    selectedService,
-    setSelectedService,
-  ] =
-    useState<TrackingService | null>(
-      null,
+    detail.updateSelectedService(
+      service,
     );
+  }
 
 
-  const [
-    isDetailOpen,
-    setIsDetailOpen,
-  ] =
-    useState(false);
+  const status =
+    useServiceStatusUpdate({
+      selectedService:
+        detail.selectedService,
 
-
-  const [
-    search,
-    setSearch,
-  ] =
-    useState("");
-
-
-  const [
-    statusFilter,
-    setStatusFilter,
-  ] =
-    useState<ServiceStatusFilter>(
-      "ALL",
-    );
-
-
-  /*
-   * Filtros que realmente
-   * están aplicados.
-   */
-  const [
-    appliedFilters,
-    setAppliedFilters,
-  ] =
-    useState<AppliedFilters>(
-      initialFilters,
-    );
-
-
-  const [
-    pagination,
-    setPagination,
-  ] =
-    useState<ServicePagination>({
-      page: 1,
-
-      pageSize: 10,
-
-      totalItems: 0,
-
-      totalPages: 1,
+      onUpdated:
+        handleServiceUpdated,
     });
-
-
-  const [
-    isLoading,
-    setIsLoading,
-  ] =
-    useState(true);
-
-
-  const [
-    error,
-    setError,
-  ] =
-    useState<string | null>(
-      null,
-    );
-
-
-  async function loadServices(
-    page: number,
-    filters: AppliedFilters,
-  ) {
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const result =
-        await getServices({
-          search:
-            filters.search,
-
-          status:
-            filters.status,
-
-          page,
-        });
-
-      setServices(
-        result.services,
-      );
-
-      setPagination(
-        result.pagination,
-      );
-
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "No se pudieron consultar los servicios.";
-
-      setError(message);
-
-      setServices([]);
-
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-
-  /*
-   * Primera carga.
-   */
-  useEffect(() => {
-    void loadServices(
-      1,
-      initialFilters,
-    );
-  }, []);
-
-
-  /*
-   * Aplicar búsqueda y filtros.
-   *
-   * Cada búsqueda nueva
-   * regresa a página 1.
-   */
-  function handleSearch() {
-    const filters:
-      AppliedFilters = {
-        search:
-          search.trim(),
-
-        status:
-          statusFilter,
-      };
-
-    setAppliedFilters(
-      filters,
-    );
-
-    void loadServices(
-      1,
-      filters,
-    );
-  }
-
-
-  /*
-   * Cambiar únicamente de página,
-   * conservando los filtros aplicados.
-   */
-  function handlePageChange(
-    page: number,
-  ) {
-    if (
-      page < 1 ||
-      page >
-        pagination.totalPages
-    ) {
-      return;
-    }
-
-    void loadServices(
-      page,
-      appliedFilters,
-    );
-  }
 
 
   function handleConsult(
     service: TrackingService,
   ) {
-    setSelectedService(
-      service,
-    );
+    status.clearStatusError();
 
-    setIsDetailOpen(
-      true,
+    detail.handleConsult(
+      service,
     );
   }
 
 
   function handleCloseDetail() {
-    setIsDetailOpen(
-      false,
-    );
+    status.clearStatusError();
+
+    detail.handleCloseDetail();
   }
 
 
   return {
-    services,
+    services:
+      list.services,
 
-    selectedService,
-    isDetailOpen,
+    selectedService:
+      detail.selectedService,
 
-    search,
-    statusFilter,
+    isDetailOpen:
+      detail.isDetailOpen,
 
-    pagination,
+    search:
+      list.search,
 
-    isLoading,
-    error,
+    statusFilter:
+      list.statusFilter,
 
-    setSearch,
-    setStatusFilter,
+    pagination:
+      list.pagination,
 
-    handleSearch,
-    handlePageChange,
+    isLoading:
+      list.isLoading,
+
+    error:
+      status.statusError ??
+      list.error,
+
+    isUpdatingStatus:
+      status.isUpdatingStatus,
+
+    setSearch:
+      list.setSearch,
+
+    setStatusFilter:
+      list.setStatusFilter,
+
+    handleSearch:
+      list.handleSearch,
+
+    handlePageChange:
+      list.handlePageChange,
 
     handleConsult,
+
     handleCloseDetail,
+
+    handleAdvanceStatus:
+      status.handleAdvanceStatus,
   };
 }

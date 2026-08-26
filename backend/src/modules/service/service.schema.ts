@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+import {
+  servicio_estado,
+} from "../../../generated/prisma/client.js";
+
 const phoneSchema = z
   .string()
   .trim()
@@ -81,12 +85,7 @@ export const listServicesQuerySchema =
       .optional(),
 
     status: z
-      .enum([
-        "RECIBIDA",
-        "EN_PROCESO",
-        "LISTA_RECOGER",
-        "ENTREGADA",
-      ])
+      .enum(servicio_estado)
       .optional(),
 
     page: z.coerce
@@ -101,4 +100,10 @@ export type ListServicesQuery =
     typeof listServicesQuerySchema
   >;
 
+export const serviceIdParamsSchema = z.object({
+  id: z.coerce
+    .number()
+    .int()
+    .positive(),
+});
 

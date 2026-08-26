@@ -1,7 +1,7 @@
 export type ServiceStatus =
   | "RECIBIDA"
   | "EN_PROCESO"
-  | "LISTA_RECOGER"
+  | "LISTA_PARA_RECOGER"
   | "ENTREGADA";
 
 export type ServiceStatusFilter =
@@ -10,18 +10,14 @@ export type ServiceStatusFilter =
 
 export interface TrackingService {
   id: number;
-
   code: string;
-
-  client: string;
-
+  client: string | null;
   phone: string | null;
-
   garments: number;
-
   status: ServiceStatus;
-
   receptionDate: string;
+
+  observations: string | null;
 }
 
 export interface ServicePagination {

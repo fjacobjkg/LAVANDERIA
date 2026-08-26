@@ -24,8 +24,8 @@ interface RegisterClientModalProps {
 
   onError:
     (message: string) => void;
+    
 }
-
 
 export function RegisterClientModal({
   isOpen,
