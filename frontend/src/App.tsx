@@ -7,9 +7,8 @@ import {
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterServicePage } from "./pages/operator/RegisterServicePage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
-import {
-  ServiceTrackingPage,
-} from "./pages/operator/ServiceTrackingPage";
+import { ServiceTrackingPage } from "./pages/operator/ServiceTrackingPage";
+import { ServiceQrLabelPage } from "./pages/operator/ServiceQrLabelPage";
 
 function App() {
   return (
@@ -43,6 +42,15 @@ function App() {
         element={
           <ProtectedRoute>
             <ServiceTrackingPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/services/qr-label"
+        element={
+          <ProtectedRoute>
+            <ServiceQrLabelPage />
           </ProtectedRoute>
         }
       />

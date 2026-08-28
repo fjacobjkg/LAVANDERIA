@@ -1,0 +1,507 @@
+.service-qr-page {
+  width: 100%;
+}
+
+
+.service-qr-page-header {
+  width: 100%;
+  max-width: 96rem;
+
+  margin:
+    0 auto
+    1.75rem;
+}
+
+
+.service-qr-content {
+  display: grid;
+
+ grid-template-columns:
+  minmax(0, 2fr)
+  minmax(22rem, 0.9fr);
+
+  gap: 1rem;
+
+  width: 100%;
+  max-width: 96rem;
+
+  margin: 0 auto;
+}
+
+
+/* CARDS */
+
+.service-qr-main-card,
+.service-qr-selection-card {
+  background: #ffffff;
+
+  border:
+    1px solid #dce6ed;
+
+  border-radius:
+    0.8rem;
+}
+
+
+.service-qr-main-card {
+  padding: 1.5rem;
+}
+
+
+.service-qr-selection-card {
+  padding: 1.25rem;
+}
+
+
+/* HEADER */
+
+.service-qr-section-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content:
+    space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 1.5rem;
+}
+
+
+.service-qr-section-header h2,
+.service-qr-selection-header h2 {
+  margin: 0;
+
+  color: #123047;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+.service-qr-section-header p,
+.service-qr-selection-header p {
+  margin:
+    0.35rem 0 0;
+
+  color: #64748b;
+
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+
+/* STATUS */
+
+.service-qr-status {
+  flex-shrink: 0;
+
+  padding:
+    0.35rem
+    0.65rem;
+
+  border-radius: 999px;
+
+  background: #f1f5f9;
+
+  color: #64748b;
+
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+
+/* PREVIEW */
+
+.service-qr-preview-area {
+  display: grid;
+
+  grid-template-columns:
+    minmax(15rem, 0.8fr)
+    minmax(0, 1fr);
+
+  gap: 1.75rem;
+
+  align-items: center;
+}
+
+
+.qr-label-preview {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  max-width: 25rem;
+  min-height: 13rem;
+
+  aspect-ratio: 5 / 3;
+
+  margin: 0 auto;
+
+  padding: 1rem;
+
+  border:
+    1px solid #d6e1e8;
+
+  border-radius:
+    0.65rem;
+
+  background: #ffffff;
+}
+
+
+.qr-label-preview-header {
+  margin-bottom: 0.45rem;
+
+  color: #123047;
+
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+
+.qr-label-placeholder {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 5.6rem;
+  height: 5.6rem;
+
+  border:
+    2px dashed #9fb3c1;
+
+  background: #f5f8fa;
+
+  color: #52777d;
+
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+
+.qr-label-code {
+  margin-top: 0.6rem;
+
+  color: #123047;
+
+  font-size: 0.72rem;
+}
+
+
+.qr-label-garments {
+  margin-top: 0.2rem;
+
+  color: #64748b;
+
+  font-size: 0.68rem;
+}
+
+
+/* INFORMATION */
+
+.service-qr-information {
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.service-qr-information-row {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 1rem;
+
+  padding:
+    0.75rem 0;
+
+  border-bottom:
+    1px solid #e3ebf0;
+}
+
+
+.service-qr-information-row span {
+  color: #64748b;
+
+  font-size: 0.78rem;
+}
+
+
+.service-qr-information-row strong {
+  color: #123047;
+
+  font-size: 0.78rem;
+
+  text-align: right;
+}
+
+
+/* ACTIONS */
+
+.service-qr-actions {
+  display: flex;
+
+  justify-content:
+    flex-end;
+
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+
+  border-top:
+    1px solid #e3ebf0;
+}
+
+
+/* SELECT SERVICE */
+
+.service-qr-selection-header {
+  margin-bottom: 1.2rem;
+}
+
+
+.service-qr-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.45rem;
+}
+
+
+.service-qr-field label {
+  color: #123047;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+
+.service-qr-field select {
+  width: 100%;
+  height: 2.65rem;
+
+  padding:
+    0 0.8rem;
+
+  border:
+    1px solid #d6e1e8;
+
+  border-radius:
+    0.5rem;
+
+  background: #ffffff;
+
+  color: #123047;
+
+  outline: none;
+}
+
+
+.service-qr-field select:focus {
+  border-color: #52777d;
+}
+
+
+.service-qr-info-notice {
+  margin-top: 1rem;
+
+  padding: 0.8rem;
+
+  border-radius:
+    0.55rem;
+
+  background: #f1f6f9;
+
+  color: #52777d;
+
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+/* MESSAGE */
+.service-qr-message {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 12rem;
+
+  padding: 1rem;
+
+  color: #64748b;
+
+  font-size: 0.85rem;
+
+  text-align: center;
+}
+
+
+.service-qr-message--error {
+  color: #b42318;
+}
+
+/* QR */
+
+@media print {
+
+  body * {
+    visibility: hidden;
+  }
+
+
+  .qr-label-preview,
+  .qr-label-preview * {
+    visibility: visible;
+  }
+
+
+  .qr-label-preview {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 50mm;
+    height: 30mm;
+
+    max-width: none;
+
+    margin: 0;
+    padding: 2mm;
+
+    border: none;
+    border-radius: 0;
+
+    background: #ffffff;
+  }
+
+
+  .qr-label-preview-header {
+    font-size: 8pt;
+  }
+
+
+  .qr-label-code {
+    font-size: 7pt;
+  }
+
+
+  .qr-label-garments {
+    font-size: 6.5pt;
+  }
+}
+
+/* RESPONSIVE */
+
+
+@media (min-width: 1100px) {
+  .service-qr-page-header,
+  .service-qr-content {
+    max-width: 96rem;
+  }
+
+
+  .service-qr-content {
+    grid-template-columns:
+      minmax(0, 2fr)
+      minmax(22rem, 0.9fr);
+
+    gap: 1.25rem;
+  }
+
+
+  .service-qr-main-card {
+    padding: 2rem;
+  }
+
+
+  .service-qr-selection-card {
+    padding: 1.5rem;
+  }
+
+
+  .service-qr-preview-area {
+    grid-template-columns:
+      minmax(20rem, 0.9fr)
+      minmax(0, 1.4fr);
+
+    gap: 2rem;
+  }
+
+
+  .qr-label-preview {
+    max-width: 25rem;
+
+    min-height: 13rem;
+  }
+
+
+  .qr-label-placeholder {
+    width: 7rem;
+    height: 7rem;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .service-qr-content {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .service-qr-selection-card {
+    order: -1;
+  }
+
+}
+
+
+@media (max-width: 640px) {
+
+  .service-qr-page-header {
+    margin-bottom: 1.25rem;
+  }
+
+
+  .service-qr-main-card,
+  .service-qr-selection-card {
+    padding: 1rem;
+  }
+
+
+  .service-qr-section-header {
+    flex-direction: column;
+  }
+
+
+  .service-qr-preview-area {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .service-qr-information-row {
+    align-items:
+      flex-start;
+  }
+
+
+ .service-qr-actions {
+    display: flex;
+    width: 100%;
+  }
+
+  .service-qr-actions button {
+    width: 100%;
+  }
+}

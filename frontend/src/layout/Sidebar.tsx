@@ -161,8 +161,18 @@ async function handleLogout() {
 
           <button
             type="button"
-            className="sidebar-link"
-            onClick={onClose}
+            className={`sidebar-link ${
+              location.pathname === "/services/qr-label"
+                ? "sidebar-link--active"
+                : ""
+            }`}
+            onClick={() => {
+              navigate(
+                "/services/qr-label",
+              );
+
+              onClose();
+            }}
           >
             <span className="sidebar-icon">
               ▣

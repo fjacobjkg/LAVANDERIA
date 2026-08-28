@@ -9,3 +9,9 @@ export {
 export {
   advanceServiceStatus,
 } from "./service.status.js";
+
+export {
+  getServicesForLabel,
+  getServiceLabel,
+  confirmServiceLabelPrint,
+} from "./service.label.js";

@@ -9,3 +9,8 @@ export {
 export {
   advanceServiceStatus,
 } from "./service/service.status";
+
+export {
+  getServiceLabel,
+  getServiceLabelOptions,
+} from "./service/service.label";
