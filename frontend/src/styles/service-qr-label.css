@@ -402,106 +402,124 @@
 
 /* RESPONSIVE */
 
+@media (max-width: 640px) {
 
-@media (min-width: 1100px) {
+  .service-qr-page,
   .service-qr-page-header,
   .service-qr-content {
-    max-width: 96rem;
+    width: 100%;
+    min-width: 0;
   }
 
-
-  .service-qr-content {
-    grid-template-columns:
-      minmax(0, 2fr)
-      minmax(22rem, 0.9fr);
-
-    gap: 1.25rem;
-  }
-
-
-  .service-qr-main-card {
-    padding: 2rem;
-  }
-
-
-  .service-qr-selection-card {
-    padding: 1.5rem;
-  }
-
-
-  .service-qr-preview-area {
-    grid-template-columns:
-      minmax(20rem, 0.9fr)
-      minmax(0, 1.4fr);
-
-    gap: 2rem;
-  }
-
-
-  .qr-label-preview {
-    max-width: 25rem;
-
-    min-height: 13rem;
-  }
-
-
-  .qr-label-placeholder {
-    width: 7rem;
-    height: 7rem;
-  }
-}
-
-@media (max-width: 900px) {
-
-  .service-qr-content {
-    grid-template-columns:
-      1fr;
-  }
-
-
-  .service-qr-selection-card {
-    order: -1;
-  }
-
-}
-
-
-@media (max-width: 640px) {
 
   .service-qr-page-header {
     margin-bottom: 1.25rem;
   }
 
 
+  .service-qr-content {
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+  }
+
+
   .service-qr-main-card,
   .service-qr-selection-card {
+    width: 100%;
+    min-width: 0;
+
     padding: 1rem;
   }
 
 
   .service-qr-section-header {
     flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 0.75rem;
+  }
+
+
+  .service-qr-status {
+    align-self: flex-start;
   }
 
 
   .service-qr-preview-area {
-    grid-template-columns:
-      1fr;
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    min-width: 0;
+
+    gap: 1.25rem;
+  }
+
+
+  .qr-label-preview {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0 auto;
+  }
+
+
+  .qr-label-code {
+    max-width: 100%;
+
+    text-align: center;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  .service-qr-information {
+    width: 100%;
+    min-width: 0;
   }
 
 
   .service-qr-information-row {
-    align-items:
-      flex-start;
+    width: 100%;
+
+    align-items: flex-start;
+
+    gap: 1rem;
   }
 
 
- .service-qr-actions {
+  .service-qr-information-row span {
+    flex-shrink: 0;
+  }
+
+
+  .service-qr-information-row strong {
+    min-width: 0;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  .service-qr-field,
+  .service-qr-field select {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  .service-qr-actions {
     display: flex;
+
     width: 100%;
   }
+
 
   .service-qr-actions button {
     width: 100%;
   }
+
 }
