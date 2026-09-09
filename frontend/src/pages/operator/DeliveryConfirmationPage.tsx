@@ -22,6 +22,10 @@ import {
   useDeliveryConfirmation,
 } from "../../hooks/delivery/useDeliveryConfirmation";
 
+import {
+  Notification,
+} from "../../components/Notification";
+
 import "../../styles/delivery-confirmation.css";
 
 
@@ -64,6 +68,7 @@ export function DeliveryConfirmationPage() {
 
     isConfirming,
     canConfirm,
+    
 
     handleServiceChange,
 
@@ -72,6 +77,9 @@ export function DeliveryConfirmationPage() {
 
     handleQrScanned,
     handleConfirmDelivery,
+
+    handleCloseSuccessMessage,
+    handleCloseError,
   } =
     useDeliveryConfirmation();
 
@@ -95,17 +103,32 @@ export function DeliveryConfirmationPage() {
 
 
         {successMessage && (
-          <div className="delivery-success-message">
-            {successMessage}
+          <div className="delivery-notification">
+            <Notification
+              type="success"
+              title="Entrega confirmada"
+              message={successMessage}
+              onClose={
+                handleCloseSuccessMessage
+              }
+            />
           </div>
         )}
 
 
         {error && (
-          <div className="delivery-error-message">
-            {error}
+          <div className="delivery-notification">
+            <Notification
+              type="error"
+              title="No se pudo completar la operación"
+              message={error}
+              onClose={
+                handleCloseError
+              }
+            />
           </div>
         )}
+
 
 
         <div className="delivery-content">

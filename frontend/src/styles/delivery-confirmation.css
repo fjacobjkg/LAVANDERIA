@@ -602,6 +602,20 @@
 }
 
 
+/* ========================================
+   NOTIFICACIÓN
+======================================== */
+
+.delivery-notification {
+  width: 100%;
+  max-width: 96rem;
+
+  margin:
+    0 auto
+    1rem;
+}
+
+
 @keyframes qr-scanner-spin {
   to {
     transform:

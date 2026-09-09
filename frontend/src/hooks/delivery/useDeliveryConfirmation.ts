@@ -126,6 +126,19 @@ export function useDeliveryConfirmation() {
     );
   }
 
+  function handleCloseSuccessMessage() {
+  setSuccessMessage(
+    null,
+  );
+}
+
+
+function handleCloseError() {
+  setError(
+    null,
+  );
+}
+
 
   async function loadService(
     serviceId: number,
@@ -431,5 +444,9 @@ async function handleQrScanned(
 
     handleQrScanned,
     handleConfirmDelivery,
+
+
+    handleCloseSuccessMessage,
+    handleCloseError
   };
 }
