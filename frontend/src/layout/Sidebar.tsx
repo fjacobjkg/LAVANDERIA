@@ -1,7 +1,9 @@
 import logo from "../assets/logo.png";
 import {logout } from "../services/auth.service";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import {
+  SidebarUserMenu,
+} from "./SidebarUserMenu";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -81,27 +83,6 @@ async function handleLogout() {
           </button>
 
         </div>
-
-
-        {/* Usuario */}
-        <div className="sidebar-session">
-
-          <div className="sidebar-avatar">
-            OP
-          </div>
-
-          <div>
-            <span>
-              Sesión actual
-            </span>
-
-            <p>
-              Operador
-            </p>
-          </div>
-
-        </div>
-
 
         {/* Navegación */}
         <nav className="sidebar-nav">
@@ -226,42 +207,10 @@ async function handleLogout() {
       </div>
 
 
-      <button
-        type="button"
-        className="sidebar-logout"
-        onClick={handleLogout}
-      >
-        <svg
-          className="sidebar-logout-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path
-            d="M10 4H5.5C4.67 4 4 4.67 4 5.5v13C4 19.33 4.67 20 5.5 20H10"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-
-          <path
-            d="M14 8l4 4-4 4"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-
-          <path
-            d="M18 12H9"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-          />
-        </svg>
-
-        <span>Cerrar sesión</span>
-      </button>
+       {/* Usuario */}
+        <SidebarUserMenu
+          onLogout={handleLogout}
+        />
 
     </aside>
   );

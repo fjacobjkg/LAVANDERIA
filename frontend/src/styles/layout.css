@@ -52,7 +52,7 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   padding: 1.75rem 1.25rem;
 
@@ -60,7 +60,6 @@
 
   background: var(--app-surface);
 }
-
 
 /* Marca */
 
@@ -70,7 +69,11 @@
 
   gap: 1rem;
 
-  padding: 0 0.5rem 2rem;
+  padding:
+    0 0.5rem
+    1.25rem;
+
+  border-bottom: 1px solid var(--app-border);
 }
 
 .sidebar-logo {
@@ -105,28 +108,74 @@
 }
 
 /* ========================================
-   SESIÓN ACTUAL
+   USUARIO / SESIÓN
 ======================================== */
 
-.sidebar-session {
+.sidebar-user-menu {
+  position: relative;
+
+  width: 100%;
+
+  margin-top: auto;
+
+  padding-top: 1rem;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+
+/* ========================================
+   BOTÓN DE USUARIO
+======================================== */
+
+.sidebar-user-trigger {
+  width: 100%;
+
   display: flex;
   align-items: center;
 
-  gap: 0.9rem;
+  gap: 0.75rem;
 
-  margin: 0 0.25rem 2rem;
+  padding: 0.7rem 0.75rem;
 
-  padding: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.75rem;
 
-  border: 1px solid #e2e8f0;
-  border-radius: 1rem;
+  background: transparent;
+
+  color: #0f172a;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.sidebar-user-trigger:hover {
+  border-color: #e2e8f0;
+
+  background: #f8fafc;
+}
+
+
+.sidebar-user-trigger--open {
+  border-color: #dbe3e8;
 
   background: #f1f5f9;
 }
 
-.sidebar-avatar {
-  width: 2.8rem;
-  height: 2.8rem;
+
+/* ========================================
+   AVATAR
+======================================== */
+
+.sidebar-user-avatar {
+  width: 2.4rem;
+  height: 2.4rem;
 
   display: grid;
   place-items: center;
@@ -136,30 +185,97 @@
   border-radius: 50%;
 
   background: var(--app-primary);
-  color: white;
 
-  font-size: 0.75rem;
+  color: #ffffff;
+
+  font-size: 0.68rem;
   font-weight: 800;
 }
 
-.sidebar-session span {
-  display: block;
+
+/* ========================================
+   INFORMACIÓN DEL USUARIO
+======================================== */
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+.sidebar-user-info strong {
+  color: #0f172a;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+
+.sidebar-user-info span {
+  margin-top: 0.12rem;
 
   color: #64748b;
 
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 500;
+
+  line-height: 1.3;
 }
 
-.sidebar-session p {
-  margin: 0.2rem 0 0;
 
-  color: #0f172a;
+/* ========================================
+   CHEVRON
+======================================== */
 
-  font-size: 0.9rem;
-  font-weight: 700;
+.sidebar-user-chevron {
+  width: 1rem;
+  height: 1rem;
+
+  flex-shrink: 0;
+
+  color: #64748b;
+
+  transition:
+    transform 0.2s ease;
 }
 
+
+.sidebar-user-trigger--open
+.sidebar-user-chevron {
+  transform: rotate(180deg);
+}
+
+
+/* ========================================
+   MENÚ DESPLEGABLE
+======================================== */
+
+.sidebar-user-dropdown {
+  position: absolute;
+
+  right: 0;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+
+  padding: 0.35rem;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 0.7rem;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 24px
+    rgba(15, 23, 42, 0.08);
+
+  z-index: 20;
+}
 
 /* ========================================
    NAVEGACIÓN
@@ -168,14 +284,25 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+
+  flex: 1;
+
+  min-height: 0;
 
   gap: 0.35rem;
+
+  padding:
+    1.5rem 0;
 }
 
 .sidebar-section-title {
-  margin: 1.75rem 0 0.65rem;
+  margin:
+    1.35rem 0
+    0.65rem;
 
-  padding: 0 0.65rem;
+  padding:
+    0 0.65rem;
 
   color: #94a3b8;
 
@@ -185,6 +312,10 @@
   text-transform: uppercase;
 
   letter-spacing: 0.1em;
+}
+
+.sidebar-section-title:first-child {
+  margin-top: 0;
 }
 
 
@@ -275,54 +406,55 @@
   background: rgba(14, 116, 144, 0.08);
 }
 
-
 /* ========================================
    CERRAR SESIÓN
 ======================================== */
 
-.sidebar-logout {
+.sidebar-user-logout {
   width: 100%;
 
   display: flex;
   align-items: center;
-  justify-content: center;
 
   gap: 0.65rem;
 
-  padding: 0.8rem 1rem;
+  padding: 0.7rem 0.75rem;
 
-  border: 1px solid transparent;
-  border-radius: 0.7rem;
+  border: none;
+  border-radius: 0.5rem;
 
   background: transparent;
+
   color: #b91c1c;
 
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
+
+  text-align: left;
 
   cursor: pointer;
 
   transition:
     background-color 0.2s ease,
-    border-color 0.2s ease,
     transform 0.15s ease;
 }
 
-.sidebar-logout-icon {
-  width: 1.15rem;
-  height: 1.15rem;
+
+.sidebar-user-logout:hover {
+  background: #fef2f2;
+}
+
+
+.sidebar-user-logout:active {
+  transform: scale(0.98);
+}
+
+
+.sidebar-user-logout-icon {
+  width: 1.05rem;
+  height: 1.05rem;
 
   flex-shrink: 0;
-}
-
-.sidebar-logout:hover {
-  border-color: #fecaca;
-
-  background-color: #fef2f2;
-}
-
-.sidebar-logout:active {
-  transform: scale(0.97);
 }
 
 
