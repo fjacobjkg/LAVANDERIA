@@ -107,3 +107,24 @@ export const serviceIdParamsSchema = z.object({
     .positive(),
 });
 
+export const deliveryQrSchema =
+  z.object({
+    qrToken:
+      z.string()
+        .trim()
+        .min(
+          1,
+          "El código QR es obligatorio.",
+        )
+        .max(
+          100,
+          "El código QR no es válido.",
+        ),
+  });
+
+
+export type DeliveryQrInput =
+  z.infer<
+    typeof deliveryQrSchema
+  >;
+

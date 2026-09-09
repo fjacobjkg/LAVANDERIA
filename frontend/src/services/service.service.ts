@@ -14,3 +14,10 @@ export {
   getServiceLabel,
   getServiceLabelOptions,
 } from "./service/service.label";
+
+export {
+  confirmDelivery,
+  getDeliveryOptions,
+  getDeliveryService,
+  validateDeliveryQr,
+} from "./service/service.delivery";

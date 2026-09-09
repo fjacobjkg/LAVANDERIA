@@ -183,8 +183,19 @@ async function handleLogout() {
 
           <button
             type="button"
-            className="sidebar-link"
-            onClick={onClose}
+            className={`sidebar-link ${
+              location.pathname ===
+              "/services/delivery-confirmation"
+                ? "sidebar-link--active"
+                : ""
+            }`}
+            onClick={() => {
+              navigate(
+                "/services/delivery-confirmation",
+              );
+
+              onClose();
+            }}
           >
             <span className="sidebar-icon">
               ✓

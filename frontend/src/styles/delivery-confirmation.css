@@ -1,0 +1,773 @@
+.delivery-page {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.delivery-page-header,
+.delivery-content {
+  width: 100%;
+  max-width: 96rem;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.delivery-page-header {
+  margin-bottom: 1.75rem;
+}
+
+
+/* =========================
+   LAYOUT
+   ========================= */
+
+.delivery-content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.9fr)
+    minmax(20rem, 0.7fr);
+
+  gap: 1rem;
+
+  align-items: start;
+}
+
+
+.delivery-main-card,
+.delivery-details-card {
+  align-self: start;
+  min-width: 0;
+
+  border:
+    1px solid #dce6ed;
+
+  border-radius:
+    0.8rem;
+
+  background:
+    #ffffff;
+}
+
+
+.delivery-main-card {
+  padding: 1.5rem;
+}
+
+
+.delivery-details-card {
+  padding: 1.25rem;
+}
+
+
+/* =========================
+   STEPS
+   ========================= */
+
+.delivery-step-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content:
+    space-between;
+
+  gap: 1rem;
+
+  margin-bottom: 1rem;
+}
+
+
+.delivery-step-header h2 {
+  margin: 0;
+
+  color: #123047;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+
+.delivery-step-header p {
+  margin:
+    0.3rem 0 0;
+
+  color: #64748b;
+
+  font-size: 0.76rem;
+
+  line-height: 1.45;
+}
+
+
+.delivery-divider {
+  margin:
+    1.5rem 0;
+
+  border-top:
+    1px solid #e3ebf0;
+}
+
+
+/* =========================
+   SELECT
+   ========================= */
+
+.delivery-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.45rem;
+
+  width: 100%;
+}
+
+
+.delivery-field label {
+  color: #123047;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+
+.delivery-field select {
+  width: 100%;
+  min-width: 0;
+
+  height: 2.7rem;
+
+  padding:
+    0 0.85rem;
+
+  border:
+    1px solid #d6e1e8;
+
+  border-radius:
+    0.5rem;
+
+  background:
+    #ffffff;
+
+  color: #123047;
+
+  outline: none;
+}
+
+
+.delivery-field select:focus {
+  border-color:
+    #52777d;
+}
+
+
+/* =========================
+   VALIDATION
+   ========================= */
+
+.delivery-validation-message {
+  margin-top: 0.8rem;
+
+  padding:
+    0.8rem 0.9rem;
+
+  border-radius:
+    0.55rem;
+
+  background:
+    #f1f6f9;
+
+  color:
+    #52777d;
+
+  font-size:
+    0.74rem;
+
+  line-height:
+    1.45;
+}
+
+
+/* =========================
+   ACTIONS
+   ========================= */
+
+.delivery-actions {
+  display: flex;
+
+  justify-content:
+    flex-end;
+
+  margin-top: 1.5rem;
+
+  padding-top: 1rem;
+
+  border-top:
+    1px solid #e3ebf0;
+}
+
+
+/* =========================
+   DETAILS
+   ========================= */
+
+.delivery-details-header {
+  margin-bottom:
+    1rem;
+}
+
+
+.delivery-details-header h2 {
+  margin: 0;
+
+  color:
+    #123047;
+
+  font-size:
+    0.95rem;
+
+  font-weight:
+    700;
+}
+
+
+.delivery-details-header p {
+  margin:
+    0.3rem 0 0;
+
+  color:
+    #64748b;
+
+  font-size:
+    0.76rem;
+
+  line-height:
+    1.45;
+}
+
+
+.delivery-details-content {
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+.delivery-details-row {
+  display: flex;
+
+  align-items: center;
+  justify-content:
+    space-between;
+
+  gap: 1rem;
+
+  padding:
+    0.75rem 0;
+
+  border-bottom:
+    1px solid #e3ebf0;
+}
+
+
+.delivery-details-row span {
+  flex-shrink: 0;
+
+  color:
+    #64748b;
+
+  font-size:
+    0.76rem;
+}
+
+
+.delivery-details-row strong {
+  min-width: 0;
+
+  color:
+    #123047;
+
+  font-size:
+    0.76rem;
+
+  text-align:
+    right;
+
+  overflow-wrap:
+    anywhere;
+}
+
+
+/* =========================
+   MENSAJES
+   ========================= */
+
+/* Estado inicial */
+
+.delivery-validation-message--idle {
+  background: #f1f6f9;
+
+  color: #52777d;
+}
+
+
+/* Validando */
+
+.delivery-validation-message--validating {
+  border:
+    1px solid #d2e5ee;
+
+  background: #eef6fa;
+
+  color: #456d83;
+}
+
+
+/* QR correcto */
+
+.delivery-validation-message--valid {
+  border:
+    1px solid #cce8d6;
+
+  background: #edf8f1;
+
+  color: #34704d;
+
+  font-weight: 600;
+}
+
+
+/* QR incorrecto */
+
+.delivery-validation-message--invalid {
+  border:
+    1px solid #f0d1cf;
+
+  background: #fdf0ef;
+
+  color: #a33f39;
+
+  font-weight: 600;
+}
+
+/* ========================================
+   ESCÁNER QR
+======================================== */
+
+.qr-scanner-modal {
+  width: 100%;
+}
+
+
+/* Cámara */
+
+.qr-scanner-camera {
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  min-height: 19rem;
+
+  overflow: hidden;
+
+  border-radius: 0.65rem;
+
+  background: #102a3b;
+}
+
+
+.qr-scanner-video {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  min-height: 19rem;
+
+  object-fit: cover;
+
+  background: #102a3b;
+}
+
+
+/* Marco de lectura */
+
+.qr-scanner-frame {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 10rem;
+  height: 10rem;
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
+  border:
+    2px solid
+    rgba(
+      255,
+      255,
+      255,
+      0.8
+    );
+
+  border-radius: 0.6rem;
+
+  pointer-events: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.qr-scanner-frame--validating {
+  border-color: #7da5bc;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      125,
+      165,
+      188,
+      0.16
+    );
+}
+
+
+.qr-scanner-frame--success {
+  border-color: #4f9b70;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      79,
+      155,
+      112,
+      0.18
+    );
+}
+
+
+.qr-scanner-frame--error {
+  border-color: #c85b56;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      200,
+      91,
+      86,
+      0.18
+    );
+}
+
+
+/* ========================================
+   RESULTADO DE LECTURA
+======================================== */
+
+.qr-scanner-feedback {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.65rem;
+
+  width: 100%;
+
+  margin-top: 0.8rem;
+
+  padding:
+    0.85rem
+    1rem;
+
+  border:
+    1px solid transparent;
+
+  border-radius:
+    0.55rem;
+
+  font-size: 0.75rem;
+
+  line-height: 1.45;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+/* Leyendo */
+
+.qr-scanner-feedback--scanning {
+  background: #f1f6f9;
+
+  color: #52777d;
+}
+
+
+/* Validando */
+
+.qr-scanner-feedback--validating {
+  background: #eef6fa;
+
+  border-color: #d2e5ee;
+
+  color: #456d83;
+}
+
+
+/* Correcto */
+
+.qr-scanner-feedback--success {
+  background: #edf8f1;
+
+  border-color: #cce8d6;
+
+  color: #34704d;
+
+  font-weight: 600;
+}
+
+
+/* Incorrecto */
+
+.qr-scanner-feedback--error {
+  background: #fdf0ef;
+
+  border-color: #f0d1cf;
+
+  color: #a33f39;
+
+  font-weight: 600;
+}
+
+
+/* Icono */
+
+.qr-scanner-feedback-icon {
+  display: grid;
+
+  place-items: center;
+
+  flex-shrink: 0;
+
+  width: 1.5rem;
+  height: 1.5rem;
+
+  border-radius: 50%;
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+}
+
+
+/* Loader */
+
+.qr-scanner-loader {
+  width: 1rem;
+  height: 1rem;
+
+  flex-shrink: 0;
+
+  border:
+    2px solid
+    #cbdde7;
+
+  border-top-color:
+    #52777d;
+
+  border-radius: 50%;
+
+  animation:
+    qr-scanner-spin
+    0.75s
+    linear
+    infinite;
+}
+
+
+@keyframes qr-scanner-spin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+
+/* Acciones */
+
+.qr-scanner-actions {
+  display: flex;
+
+  justify-content:
+    flex-end;
+
+  gap: 0.65rem;
+
+  margin-top: 1rem;
+}
+
+
+/* =========================
+   DESKTOP
+   ========================= */
+
+@media (min-width: 1100px) {
+
+  .delivery-content {
+    grid-template-columns:
+      minmax(0, 1.8fr)
+      minmax(22rem, 0.8fr);
+
+    gap:
+      1.25rem;
+  }
+
+
+  .delivery-main-card {
+    padding:
+      2rem;
+  }
+
+
+  .delivery-details-card {
+    padding:
+      1.5rem;
+  }
+
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 900px) {
+
+  .delivery-content {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .delivery-details-card {
+    order:
+      2;
+  }
+
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 640px) {
+
+  .delivery-page,
+  .delivery-page-header,
+  .delivery-content {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  .delivery-page-header {
+    margin-bottom:
+      1.25rem;
+  }
+
+
+  .delivery-content {
+    gap:
+      1rem;
+  }
+
+
+  .delivery-main-card,
+  .delivery-details-card {
+    width: 100%;
+    min-width: 0;
+
+    padding:
+      1rem;
+  }
+
+
+  .delivery-step-header {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap:
+      0.75rem;
+  }
+
+
+  .delivery-field,
+  .delivery-field select {
+    width: 100%;
+    min-width: 0;
+  }
+
+
+  .delivery-details-row {
+    align-items:
+      flex-start;
+  }
+
+
+  .delivery-actions {
+    display: flex;
+
+    width: 100%;
+  }
+
+
+  .delivery-actions button {
+    width: 100%;
+  }
+
+
+  .qr-scanner-camera,
+  .qr-scanner-video {
+    min-height: 16rem;
+  }
+
+
+  .qr-scanner-frame {
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+
+  .qr-scanner-actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+
+  .qr-scanner-actions button {
+    width: 100%;
+  }
+
+}

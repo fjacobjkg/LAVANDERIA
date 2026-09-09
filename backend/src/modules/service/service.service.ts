@@ -15,3 +15,10 @@ export {
   getServiceLabel,
   confirmServiceLabelPrint,
 } from "./service.label.js";
+
+export {
+  getDeliveryServiceOptions,
+  getDeliveryService,
+  validateDeliveryQr,
+  confirmServiceDelivery,
+} from "./service.delivery.js";

@@ -9,6 +9,7 @@ import { RegisterServicePage } from "./pages/operator/RegisterServicePage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { ServiceTrackingPage } from "./pages/operator/ServiceTrackingPage";
 import { ServiceQrLabelPage } from "./pages/operator/ServiceQrLabelPage";
+import { DeliveryConfirmationPage } from "./pages/operator/DeliveryConfirmationPage";
 
 function App() {
   return (
@@ -52,6 +53,13 @@ function App() {
           <ProtectedRoute>
             <ServiceQrLabelPage />
           </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/services/delivery-confirmation"
+        element={
+          <DeliveryConfirmationPage />
         }
       />
 
