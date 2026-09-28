@@ -7,6 +7,14 @@ import {
 } from "../../components/Button";
 
 import {
+  Notification,
+} from "../../components/Notification";
+
+import {
+  Pagination,
+} from "../../components/Pagination";
+
+import {
   HistoryControlTabs,
 } from "../../components/history-control/HistoryControlTabs";
 
@@ -26,44 +34,52 @@ import {
   useHistoryControl,
 } from "../../hooks/history-control/useHistoryControl";
 
-import { Pagination, } from "../../components/Pagination";
-
 import "../../styles/history-control.css";
 
 
 export function IncidentsHistoryPage() {
 
   const {
-  activeTab,
+    activeTab,
 
-  incidents,
-  incidentsPage,
-  incidentsTotalPages,
-  incidentsTotalRecords,
+    incidents,
+    incidentsPage,
+    incidentsTotalPages,
+    incidentsTotalRecords,
 
-  history,
-  services,
+    history,
+    services,
 
-  isRegisterModalOpen,
+    selectedHistoryServiceId,
 
-  selectedHistoryServiceId,
+    historyPage,
+    historyTotalPages,
+    historyTotalRecords,
 
-  historyPage,
-  historyTotalPages,
-  historyTotalRecords,
+    isRegisterModalOpen,
 
-  setActiveTab,
+    isLoadingIncidents,
+    isLoadingHistory,
+    isSubmittingIncident,
 
-  handleIncidentsPageChange,
+    error,
+    successMessage,
 
-  handleHistoryServiceChange,
-  handleHistoryPageChange,
+    setActiveTab,
 
-  handleOpenRegisterModal,
-  handleCloseRegisterModal,
-  handleRegisterIncident,
-} =
-  useHistoryControl();
+    handleIncidentsPageChange,
+
+    handleHistoryServiceChange,
+    handleHistoryPageChange,
+
+    handleOpenRegisterModal,
+    handleCloseRegisterModal,
+    handleRegisterIncident,
+
+    handleCloseError,
+    handleCloseSuccessMessage,
+  } =
+    useHistoryControl();
 
 
   return (
@@ -77,7 +93,6 @@ export function IncidentsHistoryPage() {
             Incidentes e historial de operación
           </h1>
 
-
           <p className="page-header-description">
             Registra excepciones y consulta
             el historial de operaciones
@@ -87,22 +102,59 @@ export function IncidentsHistoryPage() {
         </header>
 
 
+        {successMessage && (
+          <div className="history-control-notification">
+
+            <Notification
+              type="success"
+              title="Incidente registrado"
+              message={
+                successMessage
+              }
+              onClose={
+                handleCloseSuccessMessage
+              }
+            />
+
+          </div>
+        )}
+
+
+        {error && (
+          <div className="history-control-notification">
+
+            <Notification
+              type="error"
+              title="No se pudo completar la operación"
+              message={
+                error
+              }
+              onClose={
+                handleCloseError
+              }
+            />
+
+          </div>
+        )}
+
+
         <section className="history-control-card">
 
           <HistoryControlTabs
             activeTab={
               activeTab
             }
-
             onChange={
               setActiveTab
             }
           />
 
 
-          {activeTab ===
-            "incidents" && (
+          {/* ============================
+              INCIDENTES
+          ============================ */}
 
+          {activeTab === "incidents" && (
             <div className="history-control-panel">
 
               <div className="history-control-panel-header">
@@ -112,7 +164,6 @@ export function IncidentsHistoryPage() {
                   <h2>
                     Incidentes registrados
                   </h2>
-
 
                   <p>
                     Correcciones, cancelaciones,
@@ -125,7 +176,6 @@ export function IncidentsHistoryPage() {
 
                 <Button
                   type="button"
-
                   onClick={
                     handleOpenRegisterModal
                   }
@@ -136,143 +186,163 @@ export function IncidentsHistoryPage() {
               </div>
 
 
-              <IncidentsTable
-                incidents={
-                  incidents
-                }
-              />
+              {isLoadingIncidents ? (
+                <div className="history-control-empty">
+                  Cargando incidentes...
+                </div>
+              ) : (
+                <>
 
-              <Pagination
-                currentPage={
-                  incidentsPage
-                }
+                  <IncidentsTable
+                    incidents={
+                      incidents
+                    }
+                  />
 
-                totalPages={
-                  incidentsTotalPages
-                }
 
-                totalItems={
-                  incidentsTotalRecords
-                }
+                  <Pagination
+                    currentPage={
+                      incidentsPage
+                    }
+                    totalPages={
+                      incidentsTotalPages
+                    }
+                    totalItems={
+                      incidentsTotalRecords
+                    }
+                    itemLabel="incidente"
+                    onPageChange={
+                      handleIncidentsPageChange
+                    }
+                  />
 
-                itemLabel="incidente"
-
-                onPageChange={
-                  handleIncidentsPageChange
-                }
-              />
+                </>
+              )}
 
             </div>
           )}
 
 
-         {activeTab === "history" && (
-          <div className="history-control-panel">
+          {/* ============================
+              HISTORIAL
+          ============================ */}
 
-            <div className="history-control-panel-header">
-              <div>
-                <h2>
-                  Historial de operaciones por servicio
-                </h2>
+          {activeTab === "history" && (
+            <div className="history-control-panel">
 
-                <p>
-                  Consulta las acciones realizadas
-                  desde el ingreso hasta la entrega
-                  del servicio seleccionado.
-                </p>
+              <div className="history-control-panel-header">
+
+                <div>
+
+                  <h2>
+                    Historial de operaciones por servicio
+                  </h2>
+
+                  <p>
+                    Consulta las acciones realizadas
+                    desde el ingreso hasta la entrega
+                    del servicio seleccionado.
+                  </p>
+
+                </div>
+
               </div>
-            </div>
 
 
-        <div className="history-service-filter">
+              <div className="history-service-filter">
 
-          <div className="history-control-field">
+                <div className="history-control-field">
 
-            <label htmlFor="history-service">
-              Servicio
-            </label>
-
-
-            <select
-              id="history-service"
-
-              value={
-                selectedHistoryServiceId ??
-                ""
-              }
-
-              disabled={
-                services.length === 0
-              }
-
-              onChange={(event) =>
-                handleHistoryServiceChange(
-                  Number(
-                    event.target.value,
-                  ),
-                )
-              }
-            >
-
-              {services.length === 0 && (
-                <option value="">
-                  Sin servicios registrados
-                </option>
-              )}
+                  <label htmlFor="history-service">
+                    Servicio
+                  </label>
 
 
-              {services.map(
-                (service) => (
-                  <option
-                    key={
-                      service.id
-                    }
+                  <select
+                    id="history-service"
 
                     value={
-                      service.id
+                      selectedHistoryServiceId ??
+                      ""
+                    }
+
+                    disabled={
+                      services.length === 0
+                    }
+
+                    onChange={(event) =>
+                      handleHistoryServiceChange(
+                        Number(
+                          event.target.value,
+                        ),
+                      )
                     }
                   >
-                    {service.code}
-                  </option>
-                ),
+
+                    {services.length === 0 && (
+                      <option value="">
+                        Sin servicios registrados
+                      </option>
+                    )}
+
+
+                    {services.map(
+                      (service) => (
+                        <option
+                          key={
+                            service.id
+                          }
+                          value={
+                            service.id
+                          }
+                        >
+                          {service.code}
+                        </option>
+                      ),
+                    )}
+
+                  </select>
+
+                </div>
+
+              </div>
+
+
+              {isLoadingHistory ? (
+                <div className="history-control-empty">
+                  Cargando historial...
+                </div>
+              ) : (
+                <>
+
+                  <OperationHistoryTimeline
+                    records={
+                      history
+                    }
+                  />
+
+
+                  <Pagination
+                    currentPage={
+                      historyPage
+                    }
+                    totalPages={
+                      historyTotalPages
+                    }
+                    totalItems={
+                      historyTotalRecords
+                    }
+                    itemLabel="movimiento"
+                    onPageChange={
+                      handleHistoryPageChange
+                    }
+                  />
+
+                </>
               )}
 
-            </select>
-
-          </div>
-
-        </div>
-
-
-        <OperationHistoryTimeline
-          records={
-            history
-          }
-        />
-
-
-            <Pagination
-              currentPage={
-                historyPage
-              }
-
-              totalPages={
-                historyTotalPages
-              }
-
-              totalItems={
-                historyTotalRecords
-              }
-
-              itemLabel="movimiento"
-
-              onPageChange={
-                handleHistoryPageChange
-              }
-            />
-
-          </div>
-        )}
+            </div>
+          )}
 
         </section>
 
@@ -286,6 +356,10 @@ export function IncidentsHistoryPage() {
 
         services={
           services
+        }
+
+        isSubmitting={
+          isSubmittingIncident
         }
 
         onClose={

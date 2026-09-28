@@ -24,18 +24,21 @@ interface RegisterIncidentModalProps {
   services:
     IncidentServiceOption[];
 
+  isSubmitting?: boolean;
+
   onClose: () => void;
 
   onSubmit: (
     input:
       RegisterIncidentInput,
-  ) => void;
+  ) => Promise<void>;
 }
 
 
 export function RegisterIncidentModal({
   isOpen,
   services,
+  isSubmitting = false,
   onClose,
   onSubmit,
 }: RegisterIncidentModalProps) {
@@ -101,34 +104,35 @@ export function RegisterIncidentModal({
   ]);
 
 
-  function handleSubmit(
-    event:
-      React.FormEvent<HTMLFormElement>,
+ async function handleSubmit(
+  event:
+    React.FormEvent<HTMLFormElement>,
+) {
+  event.preventDefault();
+
+
+  if (
+    serviceId === null ||
+    !reason.trim() ||
+    !detail.trim() ||
+    isSubmitting
   ) {
-    event.preventDefault();
-
-
-    if (
-      serviceId === null ||
-      !reason.trim() ||
-      !detail.trim()
-    ) {
-      return;
-    }
-
-
-    onSubmit({
-      serviceId,
-
-      type,
-
-      reason:
-        reason.trim(),
-
-      detail:
-        detail.trim(),
-    });
+    return;
   }
+
+
+  await onSubmit({
+    serviceId,
+
+    type,
+
+    reason:
+      reason.trim(),
+
+    detail:
+      detail.trim(),
+  });
+}
 
 
   const canSubmit =
@@ -334,8 +338,11 @@ export function RegisterIncidentModal({
 
           <Button
             type="button"
-
             variant="secondary"
+
+            disabled={
+              isSubmitting
+            }
 
             onClick={
               onClose
@@ -346,14 +353,17 @@ export function RegisterIncidentModal({
 
 
           <Button
-            type="submit"
+          type="submit"
 
-            disabled={
-              !canSubmit
-            }
-          >
-            Registrar
-          </Button>
+          disabled={
+            !canSubmit ||
+            isSubmitting
+          }
+        >
+          {isSubmitting
+            ? "Registrando..."
+            : "Registrar"}
+        </Button>
 
         </div>
 

@@ -622,6 +622,15 @@
   text-align: center;
 }
 
+.history-control-notification {
+  width: 100%;
+  max-width: 96rem;
+
+  margin:
+    0 auto
+    1rem;
+}
+
 
 /* ========================================
    LAPTOP

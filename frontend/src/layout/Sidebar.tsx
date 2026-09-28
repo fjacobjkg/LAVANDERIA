@@ -1,47 +1,70 @@
 import logo from "../assets/logo.png";
-import {logout } from "../services/auth.service";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import {
+  logout,
+} from "../services/auth.service";
+
+import {
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
+
 import {
   SidebarUserMenu,
 } from "./SidebarUserMenu";
 
+
 interface SidebarProps {
   isOpen: boolean;
+
   onClose: () => void;
+
+  role: string;
 }
+
 
 export function Sidebar({
   isOpen,
   onClose,
+  role,
 }: SidebarProps) {
 
-const navigate = useNavigate();
-const location = useLocation();
+  const navigate =
+    useNavigate();
 
-const isNewServiceActive =
-  location.pathname === "/services/new";
+  const location =
+    useLocation();
 
-const isTrackingActive =
-  location.pathname === "/services";
 
-async function handleLogout() {
-  try {
-    await logout();
+  const isNewServiceActive =
+    location.pathname ===
+    "/services/new";
 
-    navigate(
-      "/login",
-      {
-        replace: true,
-      },
-    ); 
 
-  } catch (error) {
-    console.error(
-      "No fue posible cerrar la sesión.",
-      error,
-    );
+  const isTrackingActive =
+    location.pathname ===
+    "/services";
+
+
+  async function handleLogout() {
+    try {
+      await logout();
+
+
+      navigate(
+        "/login",
+        {
+          replace: true,
+        },
+      );
+
+    } catch (error) {
+      console.error(
+        "No fue posible cerrar la sesión.",
+        error,
+      );
+    }
   }
-}
 
   return (
     <aside
@@ -220,8 +243,14 @@ async function handleLogout() {
 
 
        {/* Usuario */}
-        <SidebarUserMenu
-          onLogout={handleLogout}
+       <SidebarUserMenu
+          role={
+            role
+          }
+
+          onLogout={
+            handleLogout
+          }
         />
 
     </aside>

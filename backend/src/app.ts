@@ -8,6 +8,9 @@ import { notFoundHandler } from "./middleware/not-found.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { clientRouter } from "./modules/client/client.routes.js";
 import { serviceRouter } from "./modules/service/service.routes.js";
+import {
+  historyControlRouter,
+} from "./modules/history-control/history-control.routes.js";
 
 export function createApp(): Express {
   const app = express();
@@ -36,6 +39,10 @@ export function createApp(): Express {
   
   app.use("/api/clients", clientRouter);
   app.use("/api/services", serviceRouter);
+  app.use(
+  "/api/history-control",
+  historyControlRouter,
+  );
 
   app.use(notFoundHandler);
   app.use(errorHandler);

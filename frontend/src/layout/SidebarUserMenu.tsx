@@ -4,17 +4,92 @@ import {
 
 
 interface SidebarUserMenuProps {
+  role: string;
+
   onLogout: () => void;
 }
 
 
+function formatRole(
+  role: string,
+) {
+  if (!role.trim()) {
+    return "Usuario";
+  }
+
+
+  return role
+    .trim()
+    .toLowerCase()
+    .replaceAll(
+      "_",
+      " ",
+    )
+    .replace(
+      /\b\w/g,
+      (character) =>
+        character.toUpperCase(),
+    );
+}
+
+
+function getRoleInitials(
+  role: string,
+) {
+  const words =
+    role
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean);
+
+
+  if (
+    words.length === 0
+  ) {
+    return "US";
+  }
+
+
+  if (
+    words.length === 1
+  ) {
+    return words[0]
+      .slice(0, 2)
+      .toUpperCase();
+  }
+
+
+  return words
+    .slice(0, 2)
+    .map(
+      (word) =>
+        word.charAt(0),
+    )
+    .join("")
+    .toUpperCase();
+}
+
+
 export function SidebarUserMenu({
+  role,
   onLogout,
 }: SidebarUserMenuProps) {
+
   const [
     isOpen,
     setIsOpen,
-  ] = useState(false);
+  ] =
+    useState(false);
+
+  const displayRole =
+  formatRole(
+    role,
+  );
+
+  const roleInitials =
+    getRoleInitials(
+      role,
+    );
 
 
   return (
@@ -26,7 +101,9 @@ export function SidebarUserMenu({
           <button
             type="button"
             className="sidebar-user-logout"
-            onClick={onLogout}
+            onClick={
+              onLogout
+            }
           >
             <svg
               className="sidebar-user-logout-icon"
@@ -68,12 +145,17 @@ export function SidebarUserMenu({
 
       <button
         type="button"
+
         className={`sidebar-user-trigger ${
           isOpen
             ? "sidebar-user-trigger--open"
             : ""
         }`}
-        aria-expanded={isOpen}
+
+        aria-expanded={
+          isOpen
+        }
+
         onClick={() =>
           setIsOpen(
             (current) =>
@@ -82,22 +164,22 @@ export function SidebarUserMenu({
         }
       >
 
-        <div className="sidebar-user-avatar">
-          OP
-        </div>
+      <div className="sidebar-user-avatar">
+        {roleInitials}
+      </div>
 
 
         <div className="sidebar-user-info">
 
-          <strong>
-            Operador
-          </strong>
+        <strong>
+          {displayRole}
+        </strong>
 
-          <span>
-            Sesión actual
-          </span>
+        <span>
+          Sesión actual
+        </span>
 
-        </div>
+      </div>
 
 
         <svg

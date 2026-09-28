@@ -51,6 +51,7 @@ export interface OperationHistoryRecord {
   responsible: string;
 }
 
+
 export interface RegisterIncidentInput {
   serviceId: number;
 
@@ -59,4 +60,13 @@ export interface RegisterIncidentInput {
   reason: string;
 
   detail: string;
+}
+
+
+export interface HistoryPagination {
+  currentPage: number;
+
+  totalPages: number;
+
+  totalItems: number;
 }
