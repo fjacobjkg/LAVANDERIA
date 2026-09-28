@@ -1,10 +1,15 @@
-import { Button } from "./Button";
+import {
+  Button,
+} from "./Button";
 
 import "../styles/pagination.css";
 
+
 interface PaginationProps {
   currentPage: number;
+
   totalPages: number;
+
   totalItems: number;
 
   onPageChange: (
@@ -12,7 +17,10 @@ interface PaginationProps {
   ) => void;
 
   disabled?: boolean;
+
+  itemLabel?: string;
 }
+
 
 export function Pagination({
   currentPage,
@@ -20,24 +28,32 @@ export function Pagination({
   totalItems,
   onPageChange,
   disabled = false,
+  itemLabel = "servicio",
 }: PaginationProps) {
+
   const canGoPrevious =
     currentPage > 1;
 
+
   const canGoNext =
-    currentPage < totalPages;
+    currentPage <
+    totalPages;
+
+
+  const pluralLabel =
+    totalItems === 1
+      ? itemLabel
+      : `${itemLabel}s`;
+
 
   return (
     <div className="pagination">
 
       <span className="pagination-summary">
+
         {totalItems === 0
-          ? "No hay servicios registrados."
-          : `${totalItems} servicio${
-              totalItems === 1
-                ? ""
-                : "s"
-            } encontrado${
+          ? `No hay ${itemLabel}s registrados.`
+          : `${totalItems} ${pluralLabel} encontrado${
               totalItems === 1
                 ? ""
                 : "s"
@@ -67,6 +83,7 @@ export function Pagination({
 
 
         <span className="pagination-page">
+
           Página{" "}
 
           <strong>
@@ -78,6 +95,7 @@ export function Pagination({
           <strong>
             {totalPages}
           </strong>
+
         </span>
 
 

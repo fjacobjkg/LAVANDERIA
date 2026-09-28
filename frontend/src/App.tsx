@@ -10,6 +10,7 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { ServiceTrackingPage } from "./pages/operator/ServiceTrackingPage";
 import { ServiceQrLabelPage } from "./pages/operator/ServiceQrLabelPage";
 import { DeliveryConfirmationPage } from "./pages/operator/DeliveryConfirmationPage";
+import { IncidentsHistoryPage } from "./pages/operator/IncidentsHistoryPage";
 
 function App() {
   return (
@@ -62,6 +63,13 @@ function App() {
           <DeliveryConfirmationPage />
         }
       />
+
+      <Route
+          path="/services/incidents-history"
+          element={
+            <IncidentsHistoryPage />
+          }
+        />
 
       <Route
         path="*"

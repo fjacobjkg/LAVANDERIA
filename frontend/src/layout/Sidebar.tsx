@@ -189,18 +189,30 @@ async function handleLogout() {
           <p className="sidebar-section-title">
             Historial y control
           </p>
+            <button
+              type="button"
 
-          <button
-            type="button"
-            className="sidebar-link"
-            onClick={onClose}
-          >
-            <span className="sidebar-icon">
-              ≡
-            </span>
+              className={`sidebar-link ${
+                location.pathname ===
+                "/services/incidents-history"
+                  ? "sidebar-link--active"
+                  : ""
+              }`}
 
-            Incidentes e historial
-          </button>
+              onClick={() => {
+                navigate(
+                  "/services/incidents-history",
+                );
+
+                onClose();
+              }}
+            >
+              <span className="sidebar-icon">
+                ≡
+              </span>
+
+              Incidentes e historial
+            </button>
 
         </nav>
 
