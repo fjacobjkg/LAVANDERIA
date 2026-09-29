@@ -1,0 +1,414 @@
+/* ========================================
+   PÁGINA
+======================================== */
+
+.monthly-deliveries-page {
+  width: 100%;
+  min-width: 0;
+}
+
+
+.monthly-deliveries-page-header,
+.monthly-deliveries-card {
+  width: 100%;
+  max-width: 96rem;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.monthly-deliveries-page-header {
+  margin-bottom: 1.75rem;
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.monthly-deliveries-card {
+  padding: 1.5rem;
+
+  border:
+    1px solid #dce6ed;
+
+  border-radius:
+    0.8rem;
+
+  background:
+    #ffffff;
+
+  box-shadow:
+    0 6px 20px
+    rgba(
+      15,
+      23,
+      42,
+      0.025
+    );
+}
+
+
+/* ========================================
+   FILTRO
+======================================== */
+
+.monthly-deliveries-filter-header {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  margin-bottom: 1.5rem;
+}
+
+
+.monthly-deliveries-filter-header h2 {
+  margin: 0;
+
+  color: #123047;
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+
+.monthly-deliveries-filter-header p {
+  margin:
+    0.35rem 0 0;
+
+  color: #64748b;
+
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+
+.monthly-deliveries-filter {
+  display: flex;
+
+  align-items: flex-end;
+
+  gap: 0.65rem;
+}
+
+
+.monthly-deliveries-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.45rem;
+}
+
+
+.monthly-deliveries-field label {
+  color: #123047;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+
+.monthly-deliveries-field input {
+  min-width: 12rem;
+  height: 2.7rem;
+
+  padding:
+    0 0.8rem;
+
+  border:
+    1px solid #d6e1e8;
+
+  border-radius:
+    0.55rem;
+
+  background:
+    #ffffff;
+
+  color:
+    #123047;
+
+  font: inherit;
+  font-size: 0.82rem;
+
+  outline: none;
+}
+
+
+.monthly-deliveries-field input:focus {
+  border-color:
+    var(--app-primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(
+      14,
+      116,
+      144,
+      0.1
+    );
+}
+
+
+/* ========================================
+   RESUMEN
+======================================== */
+
+.monthly-summary {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 0.75rem;
+
+  max-width: 42rem;
+
+  margin-bottom: 1.25rem;
+}
+
+
+.monthly-summary-card {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.35rem;
+
+  padding: 1rem;
+
+  border:
+    1px solid #dce6ed;
+
+  border-radius:
+    0.65rem;
+
+  background:
+    #f5f8fa;
+}
+
+
+.monthly-summary-card span {
+  color:
+    #64748b;
+
+  font-size:
+    0.72rem;
+}
+
+
+.monthly-summary-card strong {
+  color:
+    #123047;
+
+  font-size:
+    1.5rem;
+
+  font-weight:
+    800;
+}
+
+
+/* ========================================
+   TABLA
+======================================== */
+
+.monthly-deliveries-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+.monthly-deliveries-table {
+  width: 100%;
+
+  min-width: 52rem;
+
+  border-collapse:
+    collapse;
+}
+
+
+.monthly-deliveries-table th {
+  padding:
+    0.75rem
+    0.8rem;
+
+  border-bottom:
+    1px solid #dce6ed;
+
+  color:
+    #64748b;
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    800;
+
+  text-align:
+    left;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    0.04em;
+}
+
+
+.monthly-deliveries-table td {
+  padding:
+    0.85rem
+    0.8rem;
+
+  border-bottom:
+    1px solid #edf2f5;
+
+  color:
+    #475569;
+
+  font-size:
+    0.8rem;
+
+  line-height:
+    1.45;
+}
+
+
+.monthly-deliveries-table tbody
+tr:last-child td {
+  border-bottom:
+    none;
+}
+
+
+.monthly-deliveries-table tbody
+tr:hover {
+  background:
+    #fafcfd;
+}
+
+
+.monthly-deliveries-table td strong {
+  color:
+    #123047;
+
+  font-weight:
+    700;
+}
+
+
+/* ========================================
+   VACÍO
+======================================== */
+
+.monthly-deliveries-empty {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 8rem;
+
+  color:
+    #64748b;
+
+  font-size:
+    0.8rem;
+
+  text-align:
+    center;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 900px) {
+
+  .monthly-deliveries-filter-header {
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+
+    gap: 1rem;
+  }
+
+
+  .monthly-deliveries-filter {
+    align-self:
+      flex-start;
+  }
+
+}
+
+
+@media (max-width: 640px) {
+
+  .monthly-deliveries-page,
+  .monthly-deliveries-page-header,
+  .monthly-deliveries-card {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+
+  .monthly-deliveries-page-header {
+    margin-bottom:
+      1.25rem;
+  }
+
+
+  .monthly-deliveries-card {
+    padding:
+      1rem;
+  }
+
+
+  .monthly-deliveries-filter {
+    width: 100%;
+
+    flex-direction:
+      column;
+
+    align-items:
+      stretch;
+  }
+
+
+  .monthly-deliveries-field,
+  .monthly-deliveries-field input {
+    width: 100%;
+
+    min-width: 0;
+  }
+
+
+  .monthly-deliveries-filter
+  .button {
+    width: 100%;
+  }
+
+
+  .monthly-summary {
+    grid-template-columns:
+      1fr;
+
+    max-width:
+      none;
+  }
+
+}

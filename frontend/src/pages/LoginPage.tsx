@@ -6,6 +6,9 @@ import { login } from "../services/auth.service";
 import { useNavigate, } from "react-router-dom";
 
 import logo from "../assets/logo.png";
+import {
+  getHomeRouteByRole,
+} from "../utils/role-routing";
 
 import "../styles/login.css";
 
@@ -50,18 +53,22 @@ export function LoginPage() {
     }
 
     try {
+     
+      const result =
       await login(
         username,
         password,
       );
-      
-    
-      navigate(
-          "/services/new",
-          {
-            replace: true,
-          },
-        );
+
+
+    navigate(
+      getHomeRouteByRole(
+        result.user.role,
+      ),
+      {
+        replace: true,
+      },
+    );
 
     } catch (error) {
       if (error instanceof Error) {

@@ -11,6 +11,9 @@ import { ServiceTrackingPage } from "./pages/operator/ServiceTrackingPage";
 import { ServiceQrLabelPage } from "./pages/operator/ServiceQrLabelPage";
 import { DeliveryConfirmationPage } from "./pages/operator/DeliveryConfirmationPage";
 import { IncidentsHistoryPage } from "./pages/operator/IncidentsHistoryPage";
+import {
+  MonthlyDeliveriesPage,
+} from "./pages/propietario/MonthlyDeliveriesPage";
 
 function App() {
   return (
@@ -68,6 +71,13 @@ function App() {
           path="/services/incidents-history"
           element={
             <IncidentsHistoryPage />
+          }
+        />
+
+        <Route
+          path="/owner/monthly-deliveries"
+          element={
+            <MonthlyDeliveriesPage />
           }
         />
 

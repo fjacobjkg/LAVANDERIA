@@ -13,6 +13,11 @@ import {
   SidebarUserMenu,
 } from "./SidebarUserMenu";
 
+import {
+  isOperatorRole,
+  isOwnerRole,
+} from "../utils/role-routing";
+
 
 interface SidebarProps {
   isOpen: boolean;
@@ -35,6 +40,17 @@ export function Sidebar({
   const location =
     useLocation();
 
+  
+const isOperator =
+  isOperatorRole(
+    role,
+  );
+
+
+const isOwner =
+  isOwnerRole(
+    role,
+  );
 
   const isNewServiceActive =
     location.pathname ===
@@ -67,6 +83,8 @@ export function Sidebar({
   }
 
   return (
+
+  
     <aside
       className={`sidebar ${
         isOpen ? "sidebar--open" : ""
@@ -107,10 +125,10 @@ export function Sidebar({
 
         </div>
 
-        {/* Navegación */}
-        <nav className="sidebar-nav">
+      {isOperator && (
+      <nav className="sidebar-nav">
 
-          <p className="sidebar-section-title">
+           <p className="sidebar-section-title">
             Recepción
           </p>
 
@@ -236,8 +254,45 @@ export function Sidebar({
 
               Incidentes e historial
             </button>
+        </nav>
+      )}
+
+
+      {isOwner && (
+        <nav className="sidebar-nav">
+
+          <p className="sidebar-section-title">
+            Administración
+          </p>
+
+
+          <button
+            type="button"
+
+            className={`sidebar-link ${
+              location.pathname ===
+              "/owner/monthly-deliveries"
+                ? "sidebar-link--active"
+                : ""
+            }`}
+
+            onClick={() => {
+              navigate(
+                "/owner/monthly-deliveries",
+              );
+
+              onClose();
+            }}
+          >
+            <span className="sidebar-icon">
+              ▣
+            </span>
+
+            Entregas mensuales
+          </button>
 
         </nav>
+      )}
 
       </div>
 
