@@ -1,108 +1,33 @@
-import {
-  useMemo,
-  useState,
-} from "react";
-
-import type {
-  MonthlyDelivery,
-} from "../../types/monthly-deliveries.types";
-
-
-const MOCK_DELIVERIES:
-MonthlyDelivery[] = [
-  {
-    id: 122,
-
-    code:
-      "SRV-000122",
-
-    client:
-      "Luis Castillo",
-
-    phone:
-      "5201-8823",
-
-    garments:
-      10,
-
-    receivedAt:
-      "2026-08-12T09:20:00",
-
-    deliveredAt:
-      "2026-08-12T17:55:00",
-  },
-];
+import { useEffect, useState } from "react";
+import { getMonthlyDeliveries } from "../../services/owner/monthly-deliveries.service";
+import type { MonthlyDeliveriesResponse } from "../../types/monthly-deliveries.types";
+import { getInitialReportMonth } from "../../utils/owner-report-period";
 
 
 export function useMonthlyDeliveries() {
+  const [selectedMonth, setSelectedMonth] = useState(getInitialReportMonth);
+  const [query, setQuery] = useState(() => ({ month: getInitialReportMonth(), page: 1, revision: 0 }));
+  const [data, setData] = useState<MonthlyDeliveriesResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const [
-    selectedMonth,
-    setSelectedMonth,
-  ] =
-    useState(
-      "2026-08",
-    );
-
-
-  const [
-    appliedMonth,
-    setAppliedMonth,
-  ] =
-    useState(
-      "2026-08",
-    );
-
-
-  const deliveries =
-    useMemo(
-      () =>
-        MOCK_DELIVERIES.filter(
-          (delivery) =>
-            delivery.deliveredAt
-              .startsWith(
-                appliedMonth,
-              ),
-        ),
-
-      [
-        appliedMonth,
-      ],
-    );
-
-
-  const totalGarments =
-    deliveries.reduce(
-      (
-        total,
-        delivery,
-      ) =>
-        total +
-        delivery.garments,
-
-      0,
-    );
-
-
-  function handleSearch() {
-    setAppliedMonth(
-      selectedMonth,
-    );
-  }
-
+  useEffect(() => {
+    const controller = new AbortController();
+    setIsLoading(true);
+    setError(null);
+    setData(null);
+    getMonthlyDeliveries(query.month, query.page, controller.signal)
+      .then((result) => { if (!controller.signal.aborted) setData(result); })
+      .catch((reason: unknown) => {
+        if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : "No fue posible consultar las entregas.");
+      })
+      .finally(() => { if (!controller.signal.aborted) setIsLoading(false); });
+    return () => controller.abort();
+  }, [query]);
 
   return {
-    selectedMonth,
-
-    deliveries,
-
-    deliveredServices:
-      deliveries.length,
-
-    totalGarments,
-
-    setSelectedMonth,
-
-    handleSearch,
+    selectedMonth, setSelectedMonth, appliedMonth: query.month, data, isLoading, error,
+    handleSearch: () => setQuery((current) => ({ month: selectedMonth, page: 1, revision: current.revision + 1 })),
+    handlePageChange: (page: number) => setQuery((current) => ({ ...current, page })),
   };
 }

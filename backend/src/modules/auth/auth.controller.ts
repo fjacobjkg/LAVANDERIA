@@ -97,6 +97,10 @@ export async function loginController(
         });
     }
 
+    if (error instanceof Error && error.message === "ROLE_DISABLED") {
+      return response.status(403).json({ message: "El rol de esta cuenta ya no tiene acceso. Solicita una cuenta PROPIETARIO u OPERADOR." });
+    }
+
     console.error(error);
 
     return response

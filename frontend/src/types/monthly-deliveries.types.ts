@@ -3,9 +3,11 @@ export interface MonthlyDelivery {
 
   code: string;
 
-  client: string | null;
+  client:
+    string | null;
 
-  phone: string | null;
+  phone:
+    string | null;
 
   garments: number;
 
@@ -14,9 +16,17 @@ export interface MonthlyDelivery {
   deliveredAt: string;
 }
 
+export interface MonthlyDeliveriesResponse {
+  summary: MonthlyDeliverySummary;
+  deliveries: MonthlyDelivery[];
+  pagination: { currentPage: number; totalPages: number; totalItems: number };
+}
+
 
 export interface MonthlyDeliverySummary {
-  deliveredServices: number;
+  deliveredServices:
+    number;
 
-  totalGarments: number;
+  totalGarments:
+    number;
 }

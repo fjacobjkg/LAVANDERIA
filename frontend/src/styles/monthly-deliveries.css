@@ -411,4 +411,10 @@ tr:hover {
       none;
   }
 
+}.monthly-period-selectors { display: flex; gap: .75rem; min-width: 0; }
+.monthly-period-selectors .input-group { min-width: 7rem; }
+.monthly-applied-period { color: #64748b; font-size: .85rem; }
+@media (max-width: 640px) {
+  .monthly-period-selectors { width: 100%; }
+  .monthly-period-selectors .input-group { flex: 1; min-width: 0; }
 }

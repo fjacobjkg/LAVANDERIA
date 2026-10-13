@@ -291,6 +291,13 @@ const isOwner =
             Entregas mensuales
           </button>
 
+          <button type="button"
+            className={`sidebar-link ${location.pathname === "/owner/accounts" ? "sidebar-link--active" : ""}`}
+            onClick={() => { navigate("/owner/accounts"); onClose(); }}>
+            <span className="sidebar-icon">⚙</span>
+            Cuentas y accesos
+          </button>
+
         </nav>
       )}
 

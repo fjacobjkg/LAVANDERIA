@@ -1,149 +1,42 @@
-import {
-  AppLayout,
-} from "../../layout/AppLayout";
-
-import {
-  Button,
-} from "../../components/Button";
-
-import {
-  MonthlyDeliverySummary,
-} from "../../components/owner/MonthlyDeliverySummary";
-
-import {
-  MonthlyDeliveriesTable,
-} from "../../components/owner/MonthlyDeliveriesTable";
-
-import {
-  useMonthlyDeliveries,
-} from "../../hooks/owner/useMonthlyDeliveries";
-
+import { AppLayout } from "../../layout/AppLayout";
+import { Button } from "../../components/Button";
+import { Pagination } from "../../components/Pagination";
+import { MonthlyDeliverySummary } from "../../components/owner/MonthlyDeliverySummary";
+import { MonthlyDeliveriesTable } from "../../components/owner/MonthlyDeliveriesTable";
+import { MonthlyPeriodSelector } from "../../components/owner/MonthlyPeriodSelector";
+import { useMonthlyDeliveries } from "../../hooks/owner/useMonthlyDeliveries";
 import "../../styles/monthly-deliveries.css";
 
-
 export function MonthlyDeliveriesPage() {
-
-  const {
-    selectedMonth,
-
-    deliveries,
-
-    deliveredServices,
-
-    totalGarments,
-
-    setSelectedMonth,
-
-    handleSearch,
-  } =
-    useMonthlyDeliveries();
-
+  const { selectedMonth, setSelectedMonth, appliedMonth, data, isLoading, error, handleSearch, handlePageChange } = useMonthlyDeliveries();
+  const periodLabel = new Intl.DateTimeFormat("es-GT", { month: "long", year: "numeric", timeZone: "UTC" })
+    .format(new Date(`${appliedMonth}-01T00:00:00Z`));
 
   return (
     <AppLayout>
-
       <div className="monthly-deliveries-page">
-
         <header className="monthly-deliveries-page-header">
-
-          <h1 className="page-header-title">
-            Consulta mensual de entregas
-          </h1>
-
-          <p className="page-header-description">
-            Selecciona un mes y consulta
-            los servicios entregados durante
-            ese período.
-          </p>
-
+          <h1 className="page-header-title">Consulta mensual de entregas</h1>
+          <p className="page-header-description">Selecciona un mes y consulta los servicios entregados durante ese período.</p>
         </header>
-
-
-        <section className="monthly-deliveries-card">
-
+        <section className="monthly-deliveries-card" aria-busy={isLoading}>
           <div className="monthly-deliveries-filter-header">
-
-            <div>
-
-              <h2>
-                Período de consulta
-              </h2>
-
-              <p>
-                La consulta utiliza el estado
-                y la fecha de entrega almacenada
-                en cada servicio.
-              </p>
-
-            </div>
-
-
-            <div className="monthly-deliveries-filter">
-
-              <div className="monthly-deliveries-field">
-
-                <label htmlFor="monthly-period">
-                  Mes
-                </label>
-
-                <input
-                  id="monthly-period"
-                  type="month"
-
-                  value={
-                    selectedMonth
-                  }
-
-                  onChange={(event) =>
-                    setSelectedMonth(
-                      event.target.value,
-                    )
-                  }
-                />
-
-              </div>
-
-
-              <Button
-                type="button"
-
-                disabled={
-                  !selectedMonth
-                }
-
-                onClick={
-                  handleSearch
-                }
-              >
-                Consultar
-              </Button>
-
-            </div>
-
+            <div><h2>Período de consulta</h2><p>Selecciona el mes y el año de las entregas.</p></div>
+            <form className="monthly-deliveries-filter" onSubmit={(event) => { event.preventDefault(); handleSearch(); }}>
+              <MonthlyPeriodSelector value={selectedMonth} onChange={setSelectedMonth} disabled={isLoading} />
+              <Button type="submit" disabled={isLoading}>Consultar</Button>
+            </form>
           </div>
-
-
-          <MonthlyDeliverySummary
-            deliveredServices={
-              deliveredServices
-            }
-
-            totalGarments={
-              totalGarments
-            }
-          />
-
-
-          <MonthlyDeliveriesTable
-            deliveries={
-              deliveries
-            }
-          />
-
+          {isLoading && <div className="monthly-deliveries-empty" role="status">Consultando entregas…</div>}
+          {error && <p className="input-error-message" role="alert">{error}</p>}
+          {data && <>
+            <p className="monthly-applied-period">Resultados de {periodLabel}</p>
+            <MonthlyDeliverySummary deliveredServices={data.summary.deliveredServices} totalGarments={data.summary.totalGarments} />
+            <MonthlyDeliveriesTable deliveries={data.deliveries} />
+            {data.pagination.totalItems > 0 && <Pagination {...data.pagination} onPageChange={handlePageChange} />}
+          </>}
         </section>
-
       </div>
-
     </AppLayout>
   );
 }

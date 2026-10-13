@@ -1,4 +1,6 @@
 import { prisma } from "../../lib/prisma.js";
+import { getSessionVersion } from "../../lib/session-version.js";
+import { isActiveRole } from "../../lib/roles.js";
 
 import {
  verifyPassword,
@@ -60,9 +62,12 @@ if (!user.activo) {
     );
   }
 
+  if (!isActiveRole(user.rol.nombre)) throw new Error("ROLE_DISABLED");
+
   const token =
     signToken({
       sub: user.id_usuario,
+      sessionVersion: getSessionVersion(user.password_hash),
       username:
         user.nombre_usuario,
       role:
@@ -102,7 +107,7 @@ export async function getAuthenticatedUser(
       },
     });
 
-  if (!user || !user.activo) {
+  if (!user || !user.activo || !isActiveRole(user.rol.nombre)) {
     throw new Error(
       "INVALID_SESSION",
     );

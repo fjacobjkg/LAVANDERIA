@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import { LoginPage } from "./pages/LoginPage";
+import { OwnerAccountsPage } from "./pages/owner/OwnerAccountsPage";
 import { RegisterServicePage } from "./pages/operator/RegisterServicePage";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { ServiceTrackingPage } from "./pages/operator/ServiceTrackingPage";
@@ -36,7 +37,7 @@ function App() {
         <Route
         path="/services/new"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute role="OPERADOR">
             <RegisterServicePage />
           </ProtectedRoute>
         }
@@ -45,7 +46,7 @@ function App() {
       <Route
         path="/services"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute role="OPERADOR">
             <ServiceTrackingPage />
           </ProtectedRoute>
         }
@@ -54,7 +55,7 @@ function App() {
       <Route
         path="/services/qr-label"
         element={
-          <ProtectedRoute>
+          <ProtectedRoute role="OPERADOR">
             <ServiceQrLabelPage />
           </ProtectedRoute>
         }
@@ -63,23 +64,25 @@ function App() {
       <Route
         path="/services/delivery-confirmation"
         element={
-          <DeliveryConfirmationPage />
+          <ProtectedRoute role="OPERADOR"><DeliveryConfirmationPage /></ProtectedRoute>
         }
       />
 
       <Route
           path="/services/incidents-history"
           element={
-            <IncidentsHistoryPage />
+            <ProtectedRoute role="OPERADOR"><IncidentsHistoryPage /></ProtectedRoute>
           }
         />
 
         <Route
           path="/owner/monthly-deliveries"
           element={
-            <MonthlyDeliveriesPage />
+            <ProtectedRoute role="PROPIETARIO"><MonthlyDeliveriesPage /></ProtectedRoute>
           }
         />
+
+      <Route path="/owner/accounts" element={<ProtectedRoute role="PROPIETARIO"><OwnerAccountsPage /></ProtectedRoute>} />
 
       <Route
         path="*"

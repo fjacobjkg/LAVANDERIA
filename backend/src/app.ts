@@ -11,6 +11,9 @@ import { serviceRouter } from "./modules/service/service.routes.js";
 import {
   historyControlRouter,
 } from "./modules/history-control/history-control.routes.js";
+import {
+  ownerRouter,
+} from "./modules/owner/owner.routes.js";
 
 export function createApp(): Express {
   const app = express();
@@ -44,8 +47,13 @@ export function createApp(): Express {
   historyControlRouter,
   );
 
+
+  app.use(
+  "/api/owner",
+  ownerRouter,
+);
+
   app.use(notFoundHandler);
   app.use(errorHandler);
-
   return app;
 }
