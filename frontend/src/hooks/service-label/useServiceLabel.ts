@@ -4,6 +4,7 @@ import {
 } from "react";
 
 import {
+  confirmServiceLabelPrint,
   getServiceLabel,
   getServiceLabelOptions,
 } from "../../services/service.service";
@@ -14,7 +15,15 @@ import type {
 } from "../../types/service-label.types";
 
 
+interface PrintNotification {
+  title: string;
+
+  message: string;
+}
+
+
 export function useServiceLabel() {
+
   const [
     services,
     setServices,
@@ -50,6 +59,13 @@ export function useServiceLabel() {
 
 
   const [
+    isConfirmingPrint,
+    setIsConfirmingPrint,
+  ] =
+    useState(false);
+
+
+  const [
     error,
     setError,
   ] =
@@ -58,12 +74,27 @@ export function useServiceLabel() {
     );
 
 
+  const [
+    printNotification,
+    setPrintNotification,
+  ] =
+    useState<PrintNotification | null>(
+      null,
+    );
+
+
   async function loadService(
     serviceId: number,
   ) {
+
     try {
-      setIsLoading(true);
-      setError(null);
+      setIsLoading(
+        true,
+      );
+
+      setError(
+        null,
+      );
 
 
       const service =
@@ -81,6 +112,7 @@ export function useServiceLabel() {
       );
 
     } catch (error) {
+
       const message =
         error instanceof Error
           ? error.message
@@ -96,6 +128,7 @@ export function useServiceLabel() {
       );
 
     } finally {
+
       setIsLoading(
         false,
       );
@@ -104,10 +137,17 @@ export function useServiceLabel() {
 
 
   useEffect(() => {
+
     async function loadInitialData() {
+
       try {
-        setIsLoading(true);
-        setError(null);
+        setIsLoading(
+          true,
+        );
+
+        setError(
+          null,
+        );
 
 
         const result =
@@ -128,6 +168,7 @@ export function useServiceLabel() {
         }
 
       } catch (error) {
+
         const message =
           error instanceof Error
             ? error.message
@@ -139,6 +180,7 @@ export function useServiceLabel() {
         );
 
       } finally {
+
         setIsLoading(
           false,
         );
@@ -147,14 +189,97 @@ export function useServiceLabel() {
 
 
     void loadInitialData();
+
   }, []);
 
 
   function handleServiceChange(
     serviceId: number,
   ) {
+
+    setPrintNotification(
+      null,
+    );
+
+
     void loadService(
       serviceId,
+    );
+  }
+
+
+  async function handlePrintConfirmation() {
+
+    if (
+      !selectedService
+    ) {
+      return;
+    }
+
+
+    const wasPrinted =
+      selectedService.qrPrinted;
+
+
+    try {
+
+      setIsConfirmingPrint(
+        true,
+      );
+
+      setError(
+        null,
+      );
+
+
+      const updatedService =
+        await confirmServiceLabelPrint(
+          selectedService.id,
+        );
+
+
+      setSelectedService(
+        updatedService,
+      );
+
+
+      setPrintNotification({
+        title:
+          wasPrinted
+            ? "Etiqueta reimpresa"
+            : "Etiqueta impresa",
+
+        message:
+          wasPrinted
+            ? "La reimpresión de la etiqueta QR fue registrada correctamente."
+            : "La impresión de la etiqueta QR fue registrada correctamente.",
+      });
+
+    } catch (error) {
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "No se pudo registrar la impresión de la etiqueta.";
+
+
+      setError(
+        message,
+      );
+
+    } finally {
+
+      setIsConfirmingPrint(
+        false,
+      );
+    }
+  }
+
+
+  function handleClosePrintNotification() {
+
+    setPrintNotification(
+      null,
     );
   }
 
@@ -166,8 +291,13 @@ export function useServiceLabel() {
     selectedServiceId,
 
     isLoading,
+    isConfirmingPrint,
+
     error,
+    printNotification,
 
     handleServiceChange,
+    handlePrintConfirmation,
+    handleClosePrintNotification,
   };
 }

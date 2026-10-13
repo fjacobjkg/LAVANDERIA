@@ -16,13 +16,33 @@ interface ServiceLabelResponse {
 }
 
 
+interface PrintConfirmationResponse {
+  message:
+    string;
+
+  service:
+    ServiceLabel;
+}
+
+
+async function getResponseData(
+  response: Response,
+) {
+  return response
+    .json()
+    .catch(() => null);
+}
+
+
 export async function getServiceLabelOptions():
 Promise<ServiceLabelOption[]> {
+
   const response =
     await fetch(
       "/api/services/label-options",
       {
-        method: "GET",
+        method:
+          "GET",
 
         credentials:
           "include",
@@ -31,9 +51,9 @@ Promise<ServiceLabelOption[]> {
 
 
   const data =
-    await response
-      .json()
-      .catch(() => null);
+    await getResponseData(
+      response,
+    );
 
 
   if (!response.ok) {
@@ -55,11 +75,13 @@ Promise<ServiceLabelOption[]> {
 export async function getServiceLabel(
   serviceId: number,
 ): Promise<ServiceLabel> {
+
   const response =
     await fetch(
       `/api/services/${serviceId}/label`,
       {
-        method: "GET",
+        method:
+          "GET",
 
         credentials:
           "include",
@@ -68,9 +90,9 @@ export async function getServiceLabel(
 
 
   const data =
-    await response
-      .json()
-      .catch(() => null);
+    await getResponseData(
+      response,
+    );
 
 
   if (!response.ok) {
@@ -83,6 +105,45 @@ export async function getServiceLabel(
 
   const result =
     data as ServiceLabelResponse;
+
+
+  return result.service;
+}
+
+
+export async function confirmServiceLabelPrint(
+  serviceId: number,
+): Promise<ServiceLabel> {
+
+  const response =
+    await fetch(
+      `/api/services/${serviceId}/label/print-confirmation`,
+      {
+        method:
+          "POST",
+
+        credentials:
+          "include",
+      },
+    );
+
+
+  const data =
+    await getResponseData(
+      response,
+    );
+
+
+  if (!response.ok) {
+    throw new Error(
+      data?.message ??
+        "No se pudo registrar la impresión de la etiqueta.",
+    );
+  }
+
+
+  const result =
+    data as PrintConfirmationResponse;
 
 
   return result.service;

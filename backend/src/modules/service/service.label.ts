@@ -171,9 +171,6 @@ export async function confirmServiceLabelPrint(
   return prisma.$transaction(
     async (transaction) => {
 
-      /*
-       * 1. Validar operador.
-       */
       const operator =
         await transaction.usuario.findFirst({
           where: {
@@ -194,9 +191,6 @@ export async function confirmServiceLabelPrint(
       }
 
 
-      /*
-       * 2. Consultar servicio.
-       */
       const service =
         await transaction.servicio.findUnique({
           where: {
@@ -216,12 +210,7 @@ export async function confirmServiceLabelPrint(
           "El servicio no existe.",
         );
       }
-
-
-      /*
-       * No permitimos gestionar etiquetas
-       * de servicios ya entregados.
-       */
+      
       if (
         service.estado ===
         servicio_estado.ENTREGADA
@@ -232,21 +221,14 @@ export async function confirmServiceLabelPrint(
         );
       }
 
-
-      /*
-       * Permite distinguir entre
-       * impresión y reimpresión.
-       */
       const wasPrinted =
         service.qr_impreso;
 
 
-      /*
-       * 3. Confirmar impresión.
-       *
-       * IMPORTANTE:
-       * token_qr no se modifica.
-       */
+      const printedAt =
+        new Date();
+
+
       const updatedService =
         await transaction.servicio.update({
           where: {
@@ -259,7 +241,7 @@ export async function confirmServiceLabelPrint(
               true,
 
             fecha_ultima_impresion_qr:
-              new Date(),
+              printedAt,
           },
 
           include: {
@@ -267,10 +249,6 @@ export async function confirmServiceLabelPrint(
           },
         });
 
-
-      /*
-       * 4. Registrar trazabilidad.
-       */
       await transaction.bitacora.create({
         data: {
           id_usuario:
@@ -300,9 +278,6 @@ export async function confirmServiceLabelPrint(
       });
 
 
-      /*
-       * 5. Respuesta.
-       */
       return mapServiceLabel(
         updatedService,
       );
