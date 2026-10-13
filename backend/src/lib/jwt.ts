@@ -5,6 +5,7 @@ interface JwtPayload {
   sub: number;
   username: string;
   role: string;
+  sessionVersion: string;
 }
 
 interface TokenPayload extends JwtPayload {

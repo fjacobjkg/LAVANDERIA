@@ -4,6 +4,7 @@ import {
 
 import {
   requireAuth,
+  requireOperator,
 } from "../../middleware/auth.js";
 
 import {
@@ -36,6 +37,7 @@ export const serviceRouter =
 serviceRouter.get(
   "/",
   requireAuth,
+  requireOperator,
   getServicesController,
 );
 
@@ -43,6 +45,7 @@ serviceRouter.get(
 serviceRouter.post(
   "/",
   requireAuth,
+  requireOperator,
   createServiceController,
 );
 
@@ -55,6 +58,7 @@ serviceRouter.post(
 serviceRouter.get(
   "/label-options",
   requireAuth,
+  requireOperator,
   getServicesForLabelController,
 );
 
@@ -62,6 +66,7 @@ serviceRouter.get(
 serviceRouter.get(
   "/delivery-options",
   requireAuth,
+  requireOperator,
   getDeliveryServiceOptionsController,
 );
 
@@ -73,6 +78,7 @@ serviceRouter.get(
 serviceRouter.patch(
   "/:id/next-status",
   requireAuth,
+  requireOperator,
   advanceServiceStatusController,
 );
 
@@ -84,6 +90,7 @@ serviceRouter.patch(
 serviceRouter.get(
   "/:id/label",
   requireAuth,
+  requireOperator,
   getServiceLabelController,
 );
 
@@ -91,6 +98,7 @@ serviceRouter.get(
 serviceRouter.post(
   "/:id/label/print-confirmation",
   requireAuth,
+  requireOperator,
   confirmServiceLabelPrintController,
 );
 
@@ -102,6 +110,7 @@ serviceRouter.post(
 serviceRouter.get(
   "/:id/delivery",
   requireAuth,
+  requireOperator,
   getDeliveryServiceController,
 );
 
@@ -109,6 +118,7 @@ serviceRouter.get(
 serviceRouter.post(
   "/:id/delivery/validate-qr",
   requireAuth,
+  requireOperator,
   validateDeliveryQrController,
 );
 
@@ -116,5 +126,6 @@ serviceRouter.post(
 serviceRouter.post(
   "/:id/delivery/confirm",
   requireAuth,
+  requireOperator,
   confirmServiceDeliveryController,
 );

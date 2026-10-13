@@ -136,36 +136,19 @@ lavanderia/
 
 ## Roles del sistema
 
-El sistema utiliza roles almacenados en la base de datos.
-
-### ADMIN
-
-Cuenta administrativa del sistema. Puede acceder a las funciones operativas habilitadas y se utiliza también para tareas de administración técnica.
+El flujo activo utiliza únicamente **OPERADOR** y **PROPIETARIO**, almacenados en MySQL.
 
 ### OPERADOR
 
-Usuario encargado de la operación diaria de la lavandería:
-
-- registrar clientes;
-- registrar servicios;
-- consultar servicios;
-- cambiar estados;
-- generar etiquetas QR;
-- confirmar entregas;
-- registrar incidencias;
-- consultar historial.
+Realiza la operación diaria: clientes, servicios, estados, etiquetas QR, entregas, incidencias e historial. Las rutas operativas requieren sesión válida, usuario activo y rol OPERADOR comprobado en MySQL.
 
 ### PROPIETARIO
 
-Usuario orientado a funciones de consulta administrativa. Su navegación se mantiene separada de la operación diaria.
+Consulta entregas mensuales, administra su propia cuenta y crea, activa/desactiva o cambia la contraseña de operadores en /owner/accounts. No hay selector de rol ni eliminación de cuentas en la interfaz.
 
-La interfaz muestra dinámicamente el rol de la sesión activa y genera las iniciales utilizadas en el avatar.
+ADMIN y ADMINISTRADOR son roles legacy: no pueden iniciar sesión ni utilizar sesiones previas para acceder a rutas protegidas, no comparten la UI del operador y no se crean mediante el seed ni scripts internos. Los registros y sus relaciones históricas se conservan. No se convierten ni eliminan cuentas automáticamente.
 
-```text
-OPERADOR      → OP
-ADMIN         → AD
-PROPIETARIO   → PR
-```
+La interfaz mantiene navegaciones separadas y genera los avatares OP y PR a partir del rol.
 
 ---
 
@@ -461,70 +444,53 @@ Prisma gestiona el acceso a la base de datos desde el backend.
 
 ## Creación de usuarios
 
-El sistema no expone un formulario público para registrar cuentas.
+No existe registro público. El propietario administra operadores desde **Cuentas y accesos**; el servidor siempre asigna OPERADOR, aunque la petición incluya otro rol.
 
-Los usuarios se crean de forma administrativa desde el backend.
+### Propietario inicial
 
-### Roles base
-
-El seed garantiza la existencia de:
-
-```text
-ADMIN
-OPERADOR
-PROPIETARIO
-```
-
-### Administrador inicial
-
-La cuenta administrativa inicial se crea mediante variables de entorno:
+El seed garantiza únicamente los roles PROPIETARIO y OPERADOR. Para una instalación nueva configura:
 
 ```env
-INITIAL_ADMIN_NAME=Administrador
-INITIAL_ADMIN_USERNAME=admin
-INITIAL_ADMIN_PASSWORD=contraseña-segura
+INITIAL_OWNER_NAME=Propietario
+INITIAL_OWNER_USERNAME=propietario
+INITIAL_OWNER_PASSWORD=UnaClaveInicial2026!
 ```
 
-La contraseña se procesa con la misma función de hash utilizada por la autenticación y nunca debe almacenarse directamente en Git.
+La contraseña debe tener al menos 10 caracteres, mayúscula, minúscula, número y carácter especial; se procesa con el hash existente.
 
-El seed crea al administrador solamente cuando todavía no existe. Una ejecución posterior no debe restablecer su contraseña.
+Desde la raíz del proyecto:
 
-### Usuarios posteriores
-
-Se utiliza:
-
-```text
-backend/scripts/create-user.ts
+```powershell
+npm --prefix backend run db:seed
 ```
 
-Ejemplo en PowerShell:
+Si el usuario configurado ya es PROPIETARIO, el seed conserva su contraseña, nombre y estado, incluso si no se proporciona de nuevo la contraseña. Si no se indica INITIAL_OWNER_USERNAME y ya existe un propietario activo, no se modifica ninguna cuenta.
+
+### Transición de instalaciones anteriores
+
+INITIAL_ADMIN_* ya no crea cuentas y no se usa como alias de INITIAL_OWNER_*. Las cuentas y roles ADMIN/ADMINISTRADOR existentes se conservan con sus relaciones, pero pierden el acceso al flujo normal. No se eliminan roles ni se modifican cuentas legacy en MySQL.
+
+En una instalación que sólo tenga administrador legacy, configura INITIAL_OWNER_* con un nombre de usuario distinto y ejecuta el seed para crear un propietario explícitamente. Si INITIAL_OWNER_USERNAME está ocupado por otro rol, el seed informa del conflicto y no modifica esa cuenta. No se restablecen contraseñas existentes.
+
+### Herramienta técnica de creación
+
+La herramienta backend/scripts/create-user.ts acepta únicamente PROPIETARIO y OPERADOR. No está expuesta en frontend. Desde la carpeta backend:
 
 ```powershell
 $env:NEW_USER_PASSWORD="UnaClaveSegura2026!"
-
-npm run user:create -- --name="Operador principal" --username=operador --role=OPERADOR
-
+npx tsx scripts/create-user.ts --name="Operador principal" --username=operador --role=OPERADOR
 Remove-Item Env:NEW_USER_PASSWORD
 ```
 
-Ejemplo para propietario:
+Para crear un propietario por esta herramienta técnica, usa --role=PROPIETARIO y un nombre de usuario disponible. El script valida contraseña y rol, rechaza duplicados y no imprime contraseñas ni hashes.
 
-```powershell
-$env:NEW_USER_PASSWORD="OtraClaveSegura2026!"
+### Contraseña y estado de operadores
 
-npm run user:create -- --name="Propietario" --username=propietario --role=PROPIETARIO
+PATCH /api/owner/operators/:id/password recibe password y passwordConfirmation. Requiere propietario activo y objetivo OPERADOR, incluso para operadores inactivos. Usa una transacción para cambiar el hash y registrar CAMBIAR_PASSWORD_OPERADOR con el propietario como actor. No devuelve hashes ni borra cuentas. El propietario mantiene su sesión y las sesiones anteriores del operador dejan de ser válidas.
 
-Remove-Item Env:NEW_USER_PASSWORD
-```
+PATCH /api/owner/operators/:id/status usa active: true/false, exige objetivo OPERADOR y registra ACTIVAR_USUARIO_OPERADOR o DESACTIVAR_USUARIO_OPERADOR. La interfaz confirma antes de cambiar el estado y refresca la tabla desde el hook.
 
-El script:
-
-- valida el rol;
-- valida la contraseña;
-- rechaza usuarios duplicados;
-- genera el hash;
-- crea la cuenta activa;
-- no imprime la contraseña.
+Los campos de contraseña de cuentas incluyen Mostrar/Ocultar mediante Input. El selector mensual ofrece únicamente 2026–2030; el año inicial se limita a ese rango y conserva el mes actual de Guatemala.
 
 ---
 
@@ -532,7 +498,7 @@ El script:
 
 No deben subirse archivos `.env` al repositorio.
 
-Usa `.env.example` como referencia.
+Configura las variables documentadas a continuación en el entorno correspondiente.
 
 Ejemplo conceptual para backend:
 
@@ -542,9 +508,9 @@ PORT=3000
 
 DATABASE_URL=mysql://usuario:password@localhost:3306/lavanderia
 
-INITIAL_ADMIN_NAME=Administrador
-INITIAL_ADMIN_USERNAME=admin
-INITIAL_ADMIN_PASSWORD=contraseña-segura
+INITIAL_OWNER_NAME=Propietario
+INITIAL_OWNER_USERNAME=propietario
+INITIAL_OWNER_PASSWORD=UnaClaveInicial2026!
 ```
 
 Las credenciales reales deben configurarse directamente en el entorno donde se ejecute la aplicación.
@@ -575,9 +541,7 @@ npm install
 
 ### 2. Configurar variables de entorno
 
-```bash
-cp backend/.env.example backend/.env
-```
+Crea backend/.env con las variables de conexión, JWT y bootstrap documentadas en este README.
 
 Configura la conexión a MySQL y las variables necesarias.
 
@@ -847,7 +811,7 @@ Antes de desplegar:
 - utilizar contraseñas iniciales seguras;
 - retirar secretos temporales del entorno una vez utilizados;
 - ejecutar migraciones;
-- crear el administrador inicial;
+- crear o verificar el propietario inicial;
 - comprobar permisos de roles;
 - probar login y logout;
 - probar el ciclo completo del servicio;

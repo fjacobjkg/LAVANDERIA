@@ -1,24 +1,35 @@
-import type { InputHTMLAttributes, ReactNode } from "react";
+import { useState, type InputHTMLAttributes, type ReactNode } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   action?: ReactNode;
+  allowPasswordToggle?: boolean;
 }
 
 export function Input({
   label,
   error,
   action,
+  allowPasswordToggle = false,
+  type,
   id,
   className = "",
   required,
   ...props
 }: InputProps) {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const fieldAction = action ?? (allowPasswordToggle && type === "password" ? (
+    <button type="button" aria-label={`${passwordVisible ? "Ocultar" : "Mostrar"} ${label.toLowerCase()}`}
+      aria-controls={id} aria-pressed={passwordVisible} disabled={props.disabled}
+      onClick={() => setPasswordVisible((current) => !current)}>
+      {passwordVisible ? "Ocultar" : "Mostrar"}
+    </button>
+  ) : undefined);
   const classes = [
     "input-field",
     error ? "input-field--error" : "",
-    action ? "input-field--action" : "",
+    fieldAction ? "input-field--action" : "",
     className,
   ]
     .filter(Boolean)
@@ -43,6 +54,7 @@ export function Input({
       <div className="input-wrapper">
         <input
           id={id}
+          type={allowPasswordToggle && type === "password" && passwordVisible ? "text" : type}
           required={required}
           className={classes}
           aria-invalid={Boolean(error)}
@@ -50,9 +62,9 @@ export function Input({
           {...props}
         />
 
-        {action && (
+        {fieldAction && (
           <div className="input-action">
-            {action}
+            {fieldAction}
           </div>
         )}
       </div>

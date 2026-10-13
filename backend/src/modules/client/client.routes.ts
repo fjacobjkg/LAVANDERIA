@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import {
   requireAuth,
+  requireOperator,
 } from "../../middleware/auth.js";
 
 import {
@@ -16,6 +17,7 @@ export const clientRouter =
 clientRouter.get(
   "/",
   requireAuth,
+  requireOperator,
   getClientsController,
 );
 
@@ -23,5 +25,6 @@ clientRouter.get(
 clientRouter.post(
   "/",
   requireAuth,
+  requireOperator,
   createClientController,
 );

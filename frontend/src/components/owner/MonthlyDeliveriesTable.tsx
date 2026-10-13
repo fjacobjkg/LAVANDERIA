@@ -11,10 +11,12 @@ interface MonthlyDeliveriesTableProps {
 
 function formatDateTime(
   value: string,
+  timeZone = "America/Guatemala",
 ) {
   return new Intl.DateTimeFormat(
     "es-GT",
     {
+      timeZone,
       day:
         "2-digit",
 

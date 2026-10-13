@@ -3,7 +3,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { login } from "../services/auth.service";
-import { useNavigate, } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import {
@@ -20,13 +20,15 @@ interface FormErrors {
 type MessageType = "success" | "error" | null;
 
 export function LoginPage() {
+  const location = useLocation();
+  const sessionMessage = typeof location.state?.message === "string" ? location.state.message : "";
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<MessageType>(null);
+  const [message, setMessage] = useState(sessionMessage);
+  const [messageType, setMessageType] = useState<MessageType>(sessionMessage ? "success" : null);
   const navigate = useNavigate();
 
   async function handleSubmit(

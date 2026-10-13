@@ -4,6 +4,7 @@ import {
 
 import {
   requireAuth,
+  requireOperator,
 } from "../../middleware/auth.js";
 
 import {
@@ -24,6 +25,7 @@ export const historyControlRouter =
 historyControlRouter.get(
   "/service-options",
   requireAuth,
+  requireOperator,
   getIncidentServiceOptionsController,
 );
 
@@ -31,6 +33,7 @@ historyControlRouter.get(
 historyControlRouter.get(
   "/incidents",
   requireAuth,
+  requireOperator,
   getIncidentsController,
 );
 
@@ -38,6 +41,7 @@ historyControlRouter.get(
 historyControlRouter.post(
   "/incidents",
   requireAuth,
+  requireOperator,
   registerIncidentController,
 );
 
@@ -45,5 +49,6 @@ historyControlRouter.post(
 historyControlRouter.get(
   "/services/:id/history",
   requireAuth,
+  requireOperator,
   getServiceHistoryController,
 );
