@@ -21,25 +21,18 @@ export function ServiceQrLabelPreview({
     <div className="qr-label-preview">
 
       <div className="qr-label-preview-header">
-        Lavado o Secado
+        QR del servicio
       </div>
 
 
       <div className="qr-label-code-image">
         <QRCodeSVG
-          value={
-            qrToken
-          }
-
-          size={
-            120
-          }
-
+          value={qrToken}
+          size={220}
           level="M"
-
-          marginSize={
-            1
-          }
+          marginSize={4}
+          bgColor="#FFFFFF"
+          fgColor="#000000"
         />
       </div>
 

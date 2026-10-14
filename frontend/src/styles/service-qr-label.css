@@ -182,8 +182,6 @@
   min-width: 0;
   min-height: 13rem;
 
-  aspect-ratio: 5 / 3;
-
   margin: 0 auto;
 
   padding: 1rem;
@@ -201,15 +199,16 @@
 
 
 .qr-label-preview-header {
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.6rem;
 
   color: #123047;
 
-  font-size: 0.72rem;
+  font-size: 0.8rem;
   font-weight: 800;
 
   text-align: center;
 }
+
 
 
 /* QR REAL */
@@ -220,6 +219,11 @@
   align-items: center;
   justify-content: center;
 
+  width: 100%;
+
+  margin:
+    0.5rem 0;
+
   max-width: 100%;
 }
 
@@ -227,8 +231,10 @@
 .qr-label-code-image svg {
   display: block;
 
+  width: 220px;
+  height: 220px;
+
   max-width: 100%;
-  height: auto;
 }
 
 
@@ -254,15 +260,15 @@
   font-weight: 800;
 }
 
-
 .qr-label-code {
   max-width: 100%;
 
-  margin-top: 0.6rem;
+  margin-top: 0.75rem;
 
   color: #123047;
 
-  font-size: 0.72rem;
+  font-size: 0.8rem;
+  font-weight: 800;
 
   text-align: center;
 
@@ -271,11 +277,11 @@
 
 
 .qr-label-garments {
-  margin-top: 0.2rem;
+  margin-top: 0.3rem;
 
   color: #64748b;
 
-  font-size: 0.68rem;
+  font-size: 0.74rem;
 
   text-align: center;
 }
@@ -541,7 +547,7 @@
 
 
   .qr-label-preview {
-    max-width: 24rem;
+    max-width: 30rem;
   }
 
 }
@@ -614,14 +620,14 @@
   }
 
 
-  .qr-label-preview {
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
-    min-height: 0;
+ .qr-label-preview {
+  width: 100%;
 
-    margin: 0 auto;
-  }
+  max-width: 30rem;
+
+  min-width: 0;
+  min-height: 22rem;
+}
 
 
   .qr-label-code {
@@ -693,8 +699,12 @@
 /* ========================================
    IMPRESIÓN
 ======================================== */
-
 @media print {
+
+  @page {
+    margin: 0;
+  }
+
 
   body * {
     visibility: hidden;
@@ -713,8 +723,16 @@
     top: 0;
     left: 0;
 
-    width: 50mm;
-    height: 30mm;
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 70mm;
+    height: 78mm;
+
     min-width: 0;
     min-height: 0;
     max-width: none;
@@ -722,7 +740,8 @@
     aspect-ratio: auto;
 
     margin: 0;
-    padding: 2mm;
+
+    padding: 5mm;
 
     border: none;
     border-radius: 0;
@@ -734,17 +753,66 @@
 
 
   .qr-label-preview-header {
-    font-size: 8pt;
+    margin-bottom: 3mm;
+
+    color: #000000;
+
+    font-size: 10pt;
+    font-weight: 800;
+
+    text-align: center;
+  }
+
+
+  .qr-label-code-image {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 50mm;
+    height: 50mm;
+
+    background: #ffffff;
+  }
+
+
+  .qr-label-code-image svg {
+    display: block;
+
+    width: 50mm !important;
+    height: 50mm !important;
+
+    max-width: none;
   }
 
 
   .qr-label-code {
-    font-size: 7pt;
+    margin-top: 3mm;
+
+    color: #000000;
+
+    font-size: 9pt;
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    text-align: center;
+
+    overflow-wrap: anywhere;
   }
 
 
   .qr-label-garments {
-    font-size: 6.5pt;
-  }
+    margin-top: 1.5mm;
 
+    color: #000000;
+
+    font-size: 8pt;
+    font-weight: 600;
+
+    line-height: 1.2;
+
+    text-align: center;
+  }
 }

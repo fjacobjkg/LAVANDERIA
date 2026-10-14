@@ -114,10 +114,20 @@ export function ServiceQrLabelPage() {
      * ===================================================
      */
 
-    window.print();
+      const previousTitle =
+      document.title;
 
+      document.title =
+        `Etiqueta de servicio - ${selectedService.code}`;
 
-    await handlePrintConfirmation();
+      try {
+        window.print();
+
+        await handlePrintConfirmation();
+      } finally {
+        document.title =
+          previousTitle;
+      }
 
 
     /*
